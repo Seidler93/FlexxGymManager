@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
-import Dashboard from './pages/Dashboard'; // create this later
 import { useAuth } from './contexts/AuthContext';
+import LoginPage from './pages/LoginPage';
+import Dashboard from './pages/Dashboard';
+import SessionsPage from './pages/SessionsPage';
+import AdminLayout from './layout/AdminLayout';
 
 function App() {
   const { currentUser } = useAuth();
@@ -10,10 +12,31 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={currentUser ? <Dashboard /> : <Navigate to="/login" />}
-        />
+
+        {currentUser && (
+          <>
+            <Route
+              path="/"
+              element={
+                <AdminLayout>
+                  <Dashboard />
+                </AdminLayout>
+              }
+            />
+            <Route
+              path="/sessions"
+              element={
+                <AdminLayout>
+                  <SessionsPage />
+                </AdminLayout>
+              }
+            />
+          </>
+        )}
+
+        {!currentUser && (
+          <Route path="*" element={<Navigate to="/login" />} />
+        )}
       </Routes>
     </BrowserRouter>
   );

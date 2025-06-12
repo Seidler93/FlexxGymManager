@@ -10,7 +10,6 @@ export default function AdminSidebar() {
       <button className="collapse-toggle" onClick={() => setCollapsed(!collapsed)}>
         {collapsed ? '→' : '←'}
       </button>
-      {!collapsed && <h2 className="sidebar-title">Admin</h2>}
       <nav>
         <NavLink to="/" end className="nav-link">🏠 {!collapsed && 'Dashboard'}</NavLink>
         <NavLink to="/members" className="nav-link">👥 {!collapsed && 'Members'}</NavLink>

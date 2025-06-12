@@ -1,14 +1,16 @@
-import { useAuth } from '../contexts/AuthContext';
 import AdminNavbar from '../components/AdminNavbar';
 import AdminSidebar from '../components/AdminSidebar';
 
-export default function Dashboard() {
-
+export default function AdminLayout({ children }) {
   return (
-     <>
+    <>
+      <AdminNavbar />
+      <div style={{ display: 'flex' , marginTop: '60px'}}>
+        <AdminSidebar />
         <main style={{ padding: '1rem', width: '100%' }}>
-          <h2>Dashboard Content</h2>
+          {children}
         </main>
+      </div>
     </>
   );
 }
