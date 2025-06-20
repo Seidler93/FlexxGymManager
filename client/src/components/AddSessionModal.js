@@ -22,7 +22,6 @@ const allTimes = Array.from({ length: ((22 - 4 + 1) * 4) }, (_, i) => {
 
 const timeOptions = allTimes.map(t => ({ value: t, label: t }));
 
-
 const durations = Array.from({ length: 8 }, (_, i) => (i + 1) * 15); // 15 to 120
 
 export default function AddSessionModal({ onClose, onSessionAdded }) {
@@ -40,43 +39,31 @@ export default function AddSessionModal({ onClose, onSessionAdded }) {
     );
   };
 
-  const handleAddTime = (day) => {
-    setStartTimes(prev => ({
-      ...prev,
-      [day]: [...(prev[day] || []), '6:00 AM']
-    }));
-  };
-
-  const handleChangeTime = (day, index, value) => {
-    setStartTimes(prev => {
-      const updated = [...(prev[day] || [])];
-      updated[index] = value;
-      return { ...prev, [day]: updated };
-    });
-  };
-
-  const handleRemoveTime = (day, index) => {
-    setStartTimes(prev => {
-      const updated = [...(prev[day] || [])];
-      updated.splice(index, 1);
-      return { ...prev, [day]: updated };
-    });
-  };
-
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const sessionData = {
-      name: title,
-      recurring: isRecurring,
-      days: selectedDays,
-      times: startTimes,
-      duration,
-      description,
-      createdAt: new Date().toISOString(),
-    };
+    const createdAt = new Date().toISOString();
 
-    await addDoc(collection(db, 'sessions'), sessionData);
+    const newSessionPromises = [];
+
+    selectedDays.forEach(day => {
+      const times = startTimes[day] || [];
+      times.forEach(time => {
+        const sessionTemplate = {
+          name: title,
+          recurring: isRecurring,
+          day,
+          time,
+          duration,
+          description,
+          createdAt,
+          active: true
+        };
+        newSessionPromises.push(addDoc(collection(db, 'sessions'), sessionTemplate));
+      });
+    });
+
+    await Promise.all(newSessionPromises);
     onSessionAdded();
     onClose();
   };
@@ -135,7 +122,6 @@ export default function AddSessionModal({ onClose, onSessionAdded }) {
                       [day]: newTimes
                     }))}
                   />
-
                 </div>
               ))}
             </>
