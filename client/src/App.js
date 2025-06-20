@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import Dashboard from './pages/Dashboard';
 import SessionsPage from './pages/SessionsPage';
 import AdminLayout from './layout/AdminLayout';
+import CalendarPage from './pages/CalendarPage';
 
 function App() {
   const { currentUser } = useAuth();
@@ -31,8 +32,17 @@ function App() {
                 </AdminLayout>
               }
             />
+            <Route
+              path="/calendar"
+              element={
+                <AdminLayout>
+                  <CalendarPage />
+                </AdminLayout>
+              }
+            />
           </>
         )}
+
 
         {!currentUser && (
           <Route path="*" element={<Navigate to="/login" />} />

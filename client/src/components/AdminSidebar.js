@@ -12,6 +12,7 @@ export default function AdminSidebar() {
       </button>
       <nav>
         <NavLink to="/" end className="nav-link">🏠 {!collapsed && 'Dashboard'}</NavLink>
+        <NavLink to="/calendar" className="nav-link">📅 {!collapsed && 'Calendar'}</NavLink>
         <NavLink to="/members" className="nav-link">👥 {!collapsed && 'Members'}</NavLink>
         <NavLink to="/sessions" className="nav-link">📆 {!collapsed && 'Sessions'}</NavLink>
         <NavLink to="/reports" className="nav-link">📊 {!collapsed && 'Reports'}</NavLink>

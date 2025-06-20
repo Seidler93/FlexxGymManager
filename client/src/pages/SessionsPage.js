@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import AddSessionModal from '../components/AddSessionModal';
 
@@ -9,16 +9,16 @@ export default function SessionsPage() {
   const [sessions, setSessions] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    const fetchSessions = async () => {
-      const querySnapshot = await getDocs(collection(db, 'sessions'));
-      const sessionList = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setSessions(sessionList);
-    };
+  const fetchSessions = async () => {
+    const querySnapshot = await getDocs(collection(db, 'sessions'));
+    const sessionList = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    setSessions(sessionList);
+  };
 
+  useEffect(() => {
     fetchSessions();
   }, []);
 
@@ -29,10 +29,7 @@ export default function SessionsPage() {
     if (!groupedSessions[session.day]) groupedSessions[session.day] = [];
 
     groupedSessions[session.day].push({
-      time: session.time,
-      name: session.name,
-      duration: session.duration,
-      description: session.description || '',
+      ...session
     });
   });
 
@@ -49,6 +46,12 @@ export default function SessionsPage() {
     });
   });
 
+  const handleEdit = async (sessionId, updatedFields) => {
+    const sessionRef = doc(db, 'sessions', sessionId);
+    await updateDoc(sessionRef, updatedFields);
+    await fetchSessions();
+  };
+
   return (
     <div style={{ padding: '1rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -64,6 +67,18 @@ export default function SessionsPage() {
               {groupedSessions[day].map((session, i) => (
                 <li key={i}>
                   <strong>{session.time}</strong> — {session.name}
+                  <button
+                    onClick={() => {
+                      const newName = prompt('Edit session name:', session.name);
+                      const newTime = prompt('Edit time:', session.time);
+                      if (newName && newTime) {
+                        handleEdit(session.id, { name: newName, time: newTime });
+                      }
+                    }}
+                    style={{ marginLeft: '1rem' }}
+                  >
+                    Edit
+                  </button>
                 </li>
               ))}
             </ul>
@@ -76,14 +91,7 @@ export default function SessionsPage() {
       {showModal && (
         <AddSessionModal
           onClose={() => setShowModal(false)}
-          onSessionAdded={async () => {
-            const querySnapshot = await getDocs(collection(db, 'sessions'));
-            const sessionList = querySnapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-            setSessions(sessionList);
-          }}
+          onSessionAdded={fetchSessions}
         />
       )}
     </div>

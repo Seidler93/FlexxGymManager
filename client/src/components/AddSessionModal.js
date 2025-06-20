@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import './AddSessionModal.css';
 import { FiEdit2 } from 'react-icons/fi';
-import Select from 'react-select';
 import TimeSelect from './TimeSelect';
+import { v4 as uuidv4 } from 'uuid';
 
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 const allTimes = Array.from({ length: ((22 - 4 + 1) * 4) }, (_, i) => {
-  const base = 4 * 60; // 4:00 AM in minutes
+  const base = 4 * 60;
   const totalMinutes = base + i * 15;
   const hour = Math.floor(totalMinutes / 60);
   const minute = totalMinutes % 60;
@@ -20,9 +20,23 @@ const allTimes = Array.from({ length: ((22 - 4 + 1) * 4) }, (_, i) => {
   return `${displayHour}:${displayMinute} ${ampm}`;
 });
 
-const timeOptions = allTimes.map(t => ({ value: t, label: t }));
+const durations = Array.from({ length: 8 }, (_, i) => (i + 1) * 15);
 
-const durations = Array.from({ length: 8 }, (_, i) => (i + 1) * 15); // 15 to 120
+function getNextNDates(dayName, count) {
+  const daysMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+  const result = [];
+  let date = new Date();
+  date.setHours(0, 0, 0, 0);
+
+  while (result.length < count) {
+    if (date.getDay() === daysMap[dayName]) {
+      result.push(new Date(date));
+    }
+    date.setDate(date.getDate() + 1);
+  }
+
+  return result;
+}
 
 export default function AddSessionModal({ onClose, onSessionAdded }) {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -30,7 +44,7 @@ export default function AddSessionModal({ onClose, onSessionAdded }) {
   const [isRecurring, setIsRecurring] = useState(true);
   const [selectedDays, setSelectedDays] = useState([]);
   const [startTimes, setStartTimes] = useState({});
-  const [duration, setDuration] = useState(60); // in minutes
+  const [duration, setDuration] = useState(60);
   const [description, setDescription] = useState('');
 
   const toggleDay = day => {
@@ -42,28 +56,41 @@ export default function AddSessionModal({ onClose, onSessionAdded }) {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const createdAt = new Date().toISOString();
-
-    const newSessionPromises = [];
-
-    selectedDays.forEach(day => {
+    for (const day of selectedDays) {
       const times = startTimes[day] || [];
-      times.forEach(time => {
-        const sessionTemplate = {
+      for (const time of times) {
+        const sessionId = uuidv4();
+        const sessionData = {
+          id: sessionId,
           name: title,
           recurring: isRecurring,
           day,
           time,
           duration,
           description,
-          createdAt,
-          active: true
+          createdAt: new Date().toISOString(),
         };
-        newSessionPromises.push(addDoc(collection(db, 'sessions'), sessionTemplate));
-      });
-    });
 
-    await Promise.all(newSessionPromises);
+        await setDoc(doc(db, 'sessions', sessionId), sessionData);
+
+        // Create 8 occurrences (~2 months of weekly sessions)
+        const dates = getNextNDates(day, 8);
+        for (const sessionDate of dates) {
+          const instanceId = uuidv4(); // 👈 Generate ID
+          const instanceData = {
+            id: instanceId,
+            sessionId,
+            name: title,
+            date: sessionDate.toISOString().split('T')[0],
+            time,
+            duration,
+            attendees: [],
+          };
+          await setDoc(doc(db, 'sessionInstances', instanceId), instanceData); // 👈 Use setDoc with ID
+        }
+      }
+    }
+
     onSessionAdded();
     onClose();
   };
@@ -112,9 +139,7 @@ export default function AddSessionModal({ onClose, onSessionAdded }) {
 
               {selectedDays.map(day => (
                 <div key={day} style={{ marginBottom: '1rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <strong>{day}</strong>
-                  </div>
+                  <strong>{day}</strong>
                   <TimeSelect
                     values={startTimes[day] || []}
                     onChange={(newTimes) => setStartTimes(prev => ({
