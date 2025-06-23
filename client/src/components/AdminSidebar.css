@@ -1,5 +1,5 @@
 .admin-sidebar {
-  width: 200px;
+  width: 175px;
   height: 100vh;
   background-color: #f8f8f8;
   border-right: 1px solid #ddd;
@@ -10,13 +10,30 @@
 }
 
 .admin-sidebar.collapsed {
-  width: 60px;
-  padding: 1rem 0.5rem;
+  width: 55px;
+  padding: 1rem ;
 }
 
 .sidebar-title {
   font-size: 1.25rem;
   margin-bottom: 1rem;
+}
+
+.sidebar-text {
+  padding-left: 5px;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: revealText 0.3s ease-out forwards;
+  transform: translateX(-10px);
+  opacity: 0;
+}
+
+@keyframes revealText {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .nav-link {

@@ -2,19 +2,21 @@ import { useAuth } from '../contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import { FiBell } from 'react-icons/fi';
 import './AdminNavbar.css';
-import { collection, getDocs, deleteDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import AddMemberModal from './AddMemberModal';
+import DevDropdown from './DevDropdown';
+import Fuse from 'fuse.js';
 
 export default function AdminNavbar({ onAddMember }) {
   const { currentUser, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [devDropdownOpen, setDevDropdownOpen] = useState(false);
   const [showAddMemberModal, setShowAddMemberModal] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [members, setMembers] = useState([]);
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [fuseInstance, setFuseInstance] = useState(null);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -24,10 +26,16 @@ export default function AdminNavbar({ onAddMember }) {
         ...doc.data()
       }));
       setMembers(memberList);
+
+      const fuse = new Fuse(memberList, {
+        keys: ['firstName', 'lastName', 'email'],
+        threshold: 0.3, // lower is stricter (0.0 = exact match, 1.0 = everything)
+      });
+      setFuseInstance(fuse); // store in state
+      
     };
     fetchMembers();
   }, []);
-
 
   const initials = currentUser?.displayName
     ? currentUser.displayName.split(' ').map(n => n[0]).join('')
@@ -36,14 +44,7 @@ export default function AdminNavbar({ onAddMember }) {
   const handleLogout = async () => {
     await logout();
   };
-
-  const deleteAllFromCollection = async (collectionName) => {
-    const snapshot = await getDocs(collection(db, collectionName));
-    const deletePromises = snapshot.docs.map(docSnap => deleteDoc(doc(db, collectionName, docSnap.id)));
-    await Promise.all(deletePromises);
-    alert(`Deleted all from ${collectionName}`);
-  };
-
+  
   return (
     <nav className="admin-navbar">
       <div className="nav-left">
@@ -61,19 +62,17 @@ export default function AdminNavbar({ onAddMember }) {
               onChange={(e) => {
                 const val = e.target.value;
                 setSearchText(val);
-                if (val.length === 0) {
+
+                if (!val || !fuseInstance) {
                   setFilteredMembers([]);
                   setShowSearchResults(false);
-                } else {
-                  const filtered = members.filter(member =>
-                    member.name?.toLowerCase().includes(val.toLowerCase()) ||
-                    member.email?.toLowerCase().includes(val.toLowerCase()) ||
-                    member.phone?.toLowerCase().includes(val.toLowerCase())
-                  );
-                  setFilteredMembers(filtered);
-                  setShowSearchResults(true);
+                  return;
                 }
-              }}
+
+                const results = fuseInstance.search(val).map(result => result.item);
+                setFilteredMembers(results);
+                setShowSearchResults(true);
+              }}              
             />
           </div>
 
@@ -85,7 +84,7 @@ export default function AdminNavbar({ onAddMember }) {
                 <ul className="results-list">
                   {filteredMembers.map(member => (
                     <li key={member.id} className="result-item">
-                      {member.name} — {member.email}
+                      {member.lastName}, {member.firstName}{member.email ? ` — ${member.email}` : ''}
                     </li>
                   ))}
                 </ul>
@@ -103,21 +102,8 @@ export default function AdminNavbar({ onAddMember }) {
           <FiBell size={20} />
         </div>
 
-        <div className="dev-actions">
-          <button
-            className="dev-button"
-            onClick={() => setDevDropdownOpen(prev => !prev)}
-          >
-            Dev Actions ▾
-          </button>
-          {devDropdownOpen && (
-            <div className="dropdown dev-dropdown">
-              <button onClick={() => deleteAllFromCollection('sessions')}>Delete All Sessions</button>
-              <button onClick={() => deleteAllFromCollection('sessionInstances')}>Delete All Instances</button>
-            </div>
-          )}
-        </div>
-
+        <DevDropdown />
+         
         <div className="profile-circle" onClick={() => setDropdownOpen(prev => !prev)}>
           {initials}
         </div>

@@ -1,0 +1,121 @@
+name,membershipStatus,temperature,reasonOrSolution,daysPerWeek,paymentOption,pricePoint,startDate,ninetyDayDate,referral,referralSecondMonth,referralMember,referralCoach,recurring,reactivation,notes,createdAt
+"Burnham, Ali",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,6/23/2025,9/23/2025,TRUE,7/23/2025,,,TRUE,FALSE,,6/22/2025
+"Goodman Razowsky, Tovah",Active,Yellow,New member under 90 days,2x/Week,Monthly,$299.00,6/16/2025,9/16/2025,TRUE,,,,TRUE,FALSE,,6/13/2025
+"Marquad, Catherine",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,6/9/2025,9/9/2025,FALSE,,,,TRUE,FALSE,,6/9/2025
+"Cantor, Stacey",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,6/5/2025,9/5/2025,TRUE,7/5/2025,,,TRUE,FALSE,,6/3/2025
+"Jacobson, Tracy",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,6/5/2025,9/5/2025,TRUE,7/5/2025,Amy Haggerty,,TRUE,FALSE,,5/29/2025
+"Stone, Stacy",Active,Yellow,New member under 90 days,1x/Week,Monthly,$199.00,6/3/2025,9/3/2025,TRUE,7/3/2025,Karen Pinsoff,,TRUE,FALSE,,5/30/2025
+"Yoest, Lisa",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,5/28/2025,8/28/2025,FALSE,,,,TRUE,FALSE,,4/30/2025
+"Tisser, Sarah",Green Hold,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,5/20/2025,8/20/2025,TRUE,,,,TRUE,FALSE,,5/16/2025
+"Sotelino, Cristina",Active,Yellow,New member under 90 days,1x/Week,Monthly,$197.00,5/15/2025,8/15/2025,FALSE,,,,TRUE,FALSE,,5/6/2025
+"Berkenstadt, Becca",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,5/13/2025,8/13/2025,FALSE,,,,TRUE,FALSE,,5/7/2025
+"Kelly, Ashley",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,5/13/2025,8/13/2025,FALSE,,,,TRUE,FALSE,,5/12/2025
+"McLaughlin, Beth",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,5/13/2025,8/13/2025,FALSE,,,,TRUE,FALSE,,5/12/2025
+"Meltzer, Lindsay",Active,Yellow,New member under 90 days,3x/Week,Monthly,$399.00,5/2/2025,8/2/2025,FALSE,,,,TRUE,FALSE,,4/29/2025
+"Pinsof, Karen",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,5/2/2025,8/2/2025,TRUE,6/2/2025,Alyssa Knobel,,FALSE,FALSE,,5/1/2025
+"McDaniel, Shelly",Active,Yellow,New member under 90 days,3x/Week,Monthly,$399.00,5/1/2025,8/1/2025,FALSE,,,,TRUE,FALSE,,4/24/2025
+"Kwak, Caroline",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,4/9/2025,7/9/2025,FALSE,,,,TRUE,FALSE,,4/4/2025
+"Bareket, Simona",Active,Yellow,New member under 90 days,2x/Week,Weekly,$80.00,4/2/2025,7/2/2025,FALSE,,,,TRUE,FALSE,,3/31/2025
+"Peterson, Brad",Active,Yellow,New member under 90 days,1x/Week,Monthly,$199.00,4/2/2025,7/2/2025,TRUE,5/2/2025,Christine Peterson,,TRUE,FALSE,,3/20/2025
+"Gilbert, Pam",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,3/26/2025,6/26/2025,FALSE,,,,TRUE,FALSE,,3/21/2025
+"Wilkov, Andee",Active,Yellow,New member under 90 days,1x/Week,Monthly,$199.00,3/19/2025,6/19/2025,TRUE,4/19/2025,Lisa Bergoff,,TRUE,FALSE,,3/13/2025
+"Hoffman, Stephanie",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,3/18/2025,6/18/2025,TRUE,4/18/2025,Alyssa Knobel,,TRUE,FALSE,,3/12/2025
+"Shanahan Pheil, Meagan",Active,Yellow,New member under 90 days,1x/Week,Monthly,$199.00,3/18/2025,6/18/2025,FALSE,,,,TRUE,FALSE,,3/13/2025
+"Knobel, Alyssa",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,3/10/2025,6/10/2025,TRUE,4/10/2025,Andy Haymen,,TRUE,FALSE,,3/6/2025
+"Obiala, Cara",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,3/5/2025,6/5/2025,FALSE,,,,TRUE,FALSE,,2/27/2025
+"Dimitriou, Joanne",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,3/4/2025,6/4/2025,TRUE,4/4/2025,Maureen Miller,,TRUE,FALSE,,3/2/2025
+"Kagen, Tracey",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,3/3/2025,6/3/2025,TRUE,4/3/2025,Lisa Berghoff,,TRUE,FALSE,,3/2/2025
+"Wolinetz, Kelly",Active,Yellow,New member under 90 days,1x/Week,Monthly,$199.00,3/3/2025,6/3/2025,FALSE,,,,TRUE,FALSE,,2/26/2025
+"Kim, Jamie",Active,Yellow,New member under 90 days,1x/Week,Monthly,$199.00,2/24/2025,5/24/2025,FALSE,,,,TRUE,FALSE,,2/18/2025
+"DePodesta, Nancy",Active,Yellow,New member under 90 days,3x/Week,Monthly,$399.00,2/18/2025,5/18/2025,TRUE,3/18/2025,Jennifer Keller,,TRUE,FALSE,,2/9/2025
+"Brener, Stacie",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,2/17/2025,5/17/2025,TRUE,3/17/2025,Alexa Halbert,,TRUE,FALSE,,2/10/2025
+"Dickman, Jana",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,2/7/2025,5/7/2025,FALSE,,,,TRUE,FALSE,,2/4/2025
+"Sahbaz, Idil",Green Hold,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,2/5/2025,5/5/2025,FALSE,,,,TRUE,FALSE,,1/30/2025
+"Miller, Sarah",Active,Yellow,New member under 90 days,2x/Week,Monthly,$299.00,2/3/2025,5/3/2025,TRUE,3/3/2025,,,TRUE,FALSE,,1/31/2025
+"Pearl, Danielle",Active,Yellow,123New member under 90 days,2x/Week,Monthly,$329.00,1/27/2025,4/26/2025,TRUE,2/27/2025,Leslye Whittman,,TRUE,FALSE,,1/23/2025
+"Burns, Lisa",Active,Yellow,Under 90 Days,2x/Week,Monthly,$329.00,1/22/2025,4/22/2025,FALSE,,,,TRUE,FALSE,,1/15/2025
+"Zimmer, Julie",Active,Yellow,New member under 90 days,2x/Week,Monthly,$329.00,1/21/2025,4/21/2025,FALSE,,,,FALSE,FALSE,,1/20/2025
+"Baker, Aidan",Active,Yellow,Under 90 Days,1x/Week,Monthly,$199.00,1/10/2025,4/10/2025,TRUE,,Mandi Baker,,TRUE,FALSE,,1/10/2025
+"Mandel, Lauren",Active,Yellow,,1x/Week,Monthly,$199.00,1/9/2025,4/9/2025,FALSE,,,,TRUE,FALSE,"Loving the sessions, just need to find a reccuring time that works for her! has been leaving 10ish minutes early to get the kids to school ",1/9/2025
+"Huvard, Susan",Active,Yellow,New member,1x/Week,Monthly,$199.00,1/7/2025,4/7/2025,FALSE,,,,FALSE,FALSE,,1/7/2025
+"Emer, Carly",Active,Green,,3x/Week,Monthly,$399.00,12/29/2024,3/29/2025,TRUE,1/29/2025,"Catizone, Anna",,TRUE,FALSE,,12/29/2024
+"Karlinsky, Randi",Active,Green,,2x/Week,Monthly,$299.00,12/29/2024,3/29/2025,TRUE,1/29/2025,"Kane, Lindsey",,TRUE,FALSE,,12/29/2024
+"Kasettratut, Darlene",Active,Yellow,Just new,2x/Week,Monthly,$299.00,12/29/2024,3/29/2025,TRUE,1/29/2025,"Wang, Ninna",,TRUE,FALSE,,12/29/2024
+"Eglit, Susan",Active,Green,,2x/Week,Monthly,$299.00,12/8/2024,3/8/2025,TRUE,,"Comin, Marissa",,FALSE,FALSE,,12/8/2024
+"Siegel, Denise",Active,Yellow,New member,1x/Week,Monthly,$199.00,12/3/2024,3/3/2025,FALSE,,,,FALSE,FALSE,,12/3/2024
+"Zakon Leonard, Jill",Active,Green,Just new,2x/Week,Monthly,$329.00,11/24/2024,2/22/2025,TRUE,12/24/2024,"Serota, Keri",,TRUE,FALSE,,11/24/2024
+"Baldassarre, Renee",Active,Green,,2x/Week,Monthly,$329.00,11/19/2024,2/17/2025,TRUE,,"Baker, Mandi",,TRUE,FALSE,,11/19/2024
+"Geisheimer, Jonathan",Active,Yellow,"New, quiet guy",1x/Week,Monthly,$199.00,11/17/2024,2/15/2025,TRUE,,"Geisheimer, April",,TRUE,FALSE,,11/17/2024
+"Whittman, Leslye",Active,Green,,2x/Week,Monthly,$329.00,11/13/2024,2/11/2025,TRUE,12/13/2024,"Happ, Ashley",,TRUE,FALSE,,11/13/2024
+"Barattini, Andrea",Active,Yellow,,1x/Week,Monthly,$199.00,11/11/2024,2/9/2025,FALSE,,,,TRUE,FALSE,,11/11/2024
+"Happ, Ashley",Active,Green,,1x/Week,Monthly,$199.00,11/10/2024,2/8/2025,TRUE,12/10/2024,"Happ, Jon",,TRUE,FALSE,,11/10/2024
+"Keats, Renee",Active,Yellow,Just new,2x/Week,Monthly,$329.00,11/8/2024,2/6/2025,FALSE,,,,TRUE,FALSE,,11/8/2024
+"Keller, Jennifer",Green Hold,Green,,2x/Week,Monthly,$329.00,11/2/2024,1/31/2025,TRUE,12/2/2024,"Mazza, Andrea",,TRUE,FALSE,,11/2/2024
+"Fernandez, Nicole",Active,Yellow,Missing sessions because of work,2x/Week,Monthly,$329.00,10/30/2024,1/28/2025,FALSE,,,,FALSE,FALSE,,10/30/2024
+"Serota, Keri",Active,Green,,2x/Week,Monthly,$329.00,10/30/2024,1/28/2025,TRUE,11/30/2024,"Mazza, Andrea",,TRUE,FALSE,,10/30/2024
+"Happ, Jon",Active,Green,,2x/Week,Monthly,$239.00,10/24/2024,1/22/2025,TRUE,11/24/2024,"Mazza, Andrea",,TRUE,FALSE,,10/24/2024
+"Sachs, Heidi",Active,Green,,2x/Week,Monthly,$329.00,10/24/2024,1/22/2025,TRUE,11/24/2024,"Happ, Jon",,TRUE,FALSE,,10/24/2024
+"Imilet, Emily",Active,Green,,3x/Week,Monthly,$439.00,10/23/2024,1/21/2025,TRUE,11/23/2024,"Hergott, Anita",,TRUE,FALSE,,10/23/2024
+"Kaplan, Andi",Active,Green,,3x/Week,Monthly,$359.00,10/20/2024,1/18/2025,FALSE,,,,TRUE,FALSE,,10/20/2024
+"Peterson, Christine",Active,Green,,2x/Week,Monthly,$299.00,9/29/2024,12/28/2024,FALSE,,,,TRUE,FALSE,,9/29/2024
+"Marcus, Casey",Active,Green,,1x/Week,Monthly,$199.00,9/28/2024,12/27/2024,TRUE,10/28/2024,"Kane, Lindsey",,TRUE,FALSE,,9/28/2024
+"Daly, Nancy",Yellow Hold,Green,,3x/Week,Monthly,$359.00,9/25/2024,12/24/2024,FALSE,,,,TRUE,FALSE,,9/25/2024
+"Kavadas, Nancy",Active,Green,,2x/Week,Monthly,$329.00,9/24/2024,12/23/2024,FALSE,,,,TRUE,FALSE,,9/24/2024
+"Peritz, Linda",Active,Green,Loves us but needs continuous love back and attention,2x/Week,Monthly,$299.00,9/16/2024,12/15/2024,TRUE,10/16/2024,"Peritz, Saralyn",,TRUE,FALSE,$100 off second month (referral) looking for 1x/week. Retired teacher. Will want to have 6-weeks for Founding Member first month,9/16/2024
+"Baker, Mandi",Active,Green,,2x/Week,Monthly,$329.00,9/13/2024,12/12/2024,TRUE,10/13/2024,"Corey, Carly",,TRUE,FALSE,,9/13/2024
+"Wroblewski, Valerie",Active,Yellow,Just new,1x/Week,Monthly,$199.00,9/3/2024,12/2/2024,FALSE,,,,TRUE,FALSE,,9/3/2024
+"Catizone, Anna",Active,Green,,1x/Week,Monthly,$199.00,8/31/2024,11/29/2024,TRUE,9/30/2024,"Kane, Lindsey",,TRUE,FALSE,,8/31/2024
+"Wang, Ninna",Active,Green,,2x/Week,Monthly,$329.00,8/29/2024,11/27/2024,FALSE,,,,TRUE,FALSE,,8/29/2024
+"Corey, Carly",Active,Green,,1x/Week,Monthly,$199.00,8/27/2024,11/25/2024,TRUE,9/27/2024,"Kane, Lindsey",,TRUE,FALSE,,8/27/2024
+"Epstein, Michael",Active,Green,,2x/Week,Monthly,$299.00,8/24/2024,11/22/2024,TRUE,9/24/2024,"Epstein, Jackie",,TRUE,FALSE,,8/24/2024
+"Seedman, Danielle",Yellow Hold,Yellow,missing sessions,1x/Week,Monthly,$199.00,8/24/2024,11/22/2024,TRUE,9/24/2024,"Hubert, Jacqueline",,TRUE,FALSE,,8/24/2024
+"Januszewski, Jaime",Active,Green,,3x/Week,Monthly,$399.00,8/21/2024,11/19/2024,FALSE,,,,TRUE,FALSE,,8/21/2024
+"Douglas, Christina",Active,Green,,1x/Week,Monthly,$199.00,8/19/2024,11/17/2024,TRUE,9/19/2024,"Chusin, Andrea",,TRUE,FALSE,,8/19/2024
+"Epstein, Jackie",Active,Green,,2x/Week,Monthly,$299.00,8/19/2024,11/17/2024,FALSE,,,,TRUE,FALSE,,8/19/2024
+"Flink, Jennifer",Active,Green,,2x/Week,Monthly,$329.00,8/17/2024,11/15/2024,FALSE,,,,TRUE,FALSE,,8/17/2024
+"Pollan, Marcy",Active,Green,,2x/Week,Monthly,$329.00,8/16/2024,11/14/2024,TRUE,9/16/2024,"Aghion, Debora",,TRUE,FALSE,Power. She can be pushed with basically zero limitations.,8/16/2024
+"Hergott, Anita",Active,Green,,2x/Week,Monthly,$299.00,8/14/2024,11/12/2024,FALSE,,,,TRUE,FALSE,,8/14/2024
+"Accardo, Veronica",Active,Green,,2x/Week,Monthly,$299.00,8/13/2024,11/11/2024,FALSE,,,,TRUE,FALSE,,8/13/2024
+"Moosey, Scott",Active,Green,,2x/Week,Monthly,$299.00,8/12/2024,11/10/2024,TRUE,9/12/2024,"Moosey, Lizzy",,TRUE,FALSE,Referral from Lizzie (Glenview),8/12/2024
+"Berghoff, Lisa",Active,Green,,2x/Week,Monthly,$299.00,8/8/2024,11/6/2024,FALSE,,,,TRUE,FALSE,,8/8/2024
+"Halbert, Alexa",Active,Green,,2x/Week,Monthly,$299.00,8/8/2024,11/6/2024,TRUE,9/8/2024,"Brand, Julie",,TRUE,FALSE,Referral from Julie Brand,8/8/2024
+"Sianis, Jennifer",Active,Green,,1x/Week,Monthly,$199.00,8/8/2024,11/6/2024,FALSE,,,,TRUE,TRUE,Wants to bring in her husband! ,2/27/2025
+"Peritz, Saralyn",Active,Green,,3x/Week,Monthly,$359.00,8/7/2024,11/5/2024,FALSE,,,,TRUE,FALSE,2x/week. Mon/Thursday 10am,8/7/2024
+"Brand, Julie",Active,Green,,1x/Week,Monthly,$199.00,8/5/2024,11/3/2024,FALSE,,,,TRUE,TRUE,,3/5/2025
+"Kayes, Nicole",Active,Green,,2x/Week,Monthly,$299.00,8/5/2024,11/3/2024,FALSE,,,,TRUE,FALSE,,8/5/2024
+"Melinger, Jackie",Active,Green,,1x/Week,Monthly,$199.00,8/3/2024,11/1/2024,FALSE,,,,FALSE,FALSE,"Give 100, Get 100 with Molly",8/3/2024
+"Kalina, Abbe",Active,Green,,2x/Week,Monthly,$299.00,8/1/2024,10/30/2024,TRUE,9/1/2024,"Kalina, Gary",,TRUE,FALSE,,8/1/2024
+"Francis-Sedlak, Megan",Active,Green,,2x/Week,Monthly,$299.00,7/29/2024,10/27/2024,FALSE,,,,TRUE,FALSE,Lower Strength. Get's gassed quickly,7/29/2024
+"Halpern, Marlene",Active,Green,,2x/Week,Monthly,$299.00,7/29/2024,10/27/2024,TRUE,8/29/2024,"Karmin, Lynne",,TRUE,FALSE,Upper stability/Lower Strength. Referral from Lynne. Attorney.,7/29/2024
+"Kharasch, Maureen",Active,Green,,2x/Week,Monthly,$299.00,7/29/2024,10/27/2024,TRUE,8/29/2024,"Miller, Maureen",,TRUE,FALSE,,7/29/2024
+"Kalina, Gary",Active,Green,,2x/Week,Monthly,$299.00,7/27/2024,10/25/2024,FALSE,,,,TRUE,FALSE,"Heart Condition. Can not get his hear rate super high, left shoulder troublesome, stick to landmine",7/27/2024
+"Chapman, Jonathan",Active,Green,,2x/Week,Monthly,$299.00,7/26/2024,10/24/2024,FALSE,,,,TRUE,FALSE,"Strength, take things slow. Watch his back on squats.",7/26/2024
+"Monacelli, Jennifer",Active,Green,,2x/Week,Monthly,$299.00,7/23/2024,10/21/2024,FALSE,,,,TRUE,FALSE,,7/23/2024
+"Koulogeorge, Phaedra",Active,Green,,3x/Week,Monthly,$359.00,7/18/2024,10/16/2024,FALSE,,,,TRUE,FALSE,2x/week. No $100 off. 10am Monday/Thursday recurring going forward starting next week.,7/18/2024
+"Aghion, Debora",Active,Green,,1x/Week,Monthly,$199.00,7/17/2024,10/15/2024,TRUE,8/17/2024,"Merson, Michelle",,TRUE,FALSE,"$100 off first month, moves decently well. Upper stability, should be able to go to medium strength.",7/17/2024
+"Silverman, Lori",Active,Green,,2x/Week,Monthly,$299.00,7/15/2024,10/13/2024,FALSE,,,,FALSE,FALSE,Strength trains a couple times a week. Most likely a strength person. ,7/15/2024
+"Silverman, Wendy",Active,Green,,1x/Week,Monthly,$199.00,7/15/2024,10/13/2024,FALSE,,,,TRUE,FALSE,Can not do high intensity stuff. Auto-immune,7/15/2024
+"Simon, Jami",Active,Green,,2x/Week,Monthly,$299.00,7/15/2024,10/13/2024,FALSE,,,,TRUE,TRUE,"Auto-immune disorder, but BIG personality. Should be a great fit.",4/29/2025
+"Sugarman, Jenny",Yellow Hold,Green,,2x/Week,Monthly,$299.00,7/15/2024,10/13/2024,FALSE,,,,TRUE,FALSE,2x/week. 4:30pm Monday/Wednesday.,7/15/2024
+"Lourie, Lois",Active,Green,,2x/Week,Monthly,$299.00,7/14/2024,10/12/2024,FALSE,,,,TRUE,TRUE,Current member at Glenview location. Mon/Wed 8am,2/24/2025
+"Medina, Barbara",Yellow Hold,Green,,3x/Week,Monthly,$399.00,7/13/2024,10/11/2024,FALSE,,,,TRUE,FALSE,3x/week. Stability with potential for strength. 6:30pms. ,7/13/2024
+"Levin, Gail",Green Hold,Green,,2x/Week,Monthly,$299.00,7/12/2024,10/10/2024,FALSE,,,,TRUE,TRUE,,6/2/2025
+"Merson, Michelle",Active,Green,,3x/Week,Monthly,$399.00,7/10/2024,10/8/2024,TRUE,,"Sharfman, Howard",,TRUE,TRUE,,6/14/2025
+"Blumenau (Laura on MBO), Sydnie",Active,Green,,2x/Week,Monthly,$199.00,7/8/2024,10/6/2024,FALSE,,,,TRUE,TRUE,,6/2/2025
+"Leon, Michelle",Active,Green,,2x/Week,Monthly,$299.00,7/8/2024,10/6/2024,FALSE,,,,FALSE,FALSE,Will be 2x/week. June 22nd workout in Glenview at 11am. ,7/8/2024
+"Mazza, Andrea",Active,Green,,3x/Week,Monthly,$399.00,7/8/2024,10/6/2024,FALSE,,,,TRUE,FALSE,"2x/week. SUPER STABILITY level. Very intimidated by the gym, but is a great personality fit. Mid 40s.",7/8/2024
+"Miller, Maureen",Active,Green,,3x/Week,Monthly,$399.00,7/8/2024,10/6/2024,FALSE,,,,TRUE,FALSE,Stability if I had to guess. Hip Replacement/ruptured patella,7/8/2024
+"Simon, Jacqui",Active,Green,,2x/Week,Monthly,$299.00,7/6/2024,10/4/2024,FALSE,,,,TRUE,FALSE,1x/week. Terrible knees/torn rotator cuff shoulder. Stability through and through. Most likely no zero knee dominant movements.,7/6/2024
+"Hayman, Andy",Active,Green,,2x/Week,Monthly,$299.00,7/3/2024,10/1/2024,FALSE,,,,TRUE,FALSE,2x/week. 6am or 7am will work best. Wednesday and Friday. ,3/18/2025
+"Jaffe, Monika",Active,Green,,3x/Week,Monthly,$399.00,6/29/2024,9/27/2024,FALSE,,,,TRUE,FALSE,"2x/week. Low strength level. Former rugby player, struggles with consistency.",6/29/2024
+"Comin, Marissa",Active,Green,,3x/Week,Monthly,$399.00,6/21/2024,9/19/2024,FALSE,,,,TRUE,FALSE,"Younger, most likely a strength person",6/21/2024
+"Sharfman, Howard",Active,Green,,2x/Week,Monthly,$299.00,6/17/2024,9/15/2024,FALSE,,,,FALSE,TRUE,"Older guy, bad shoulder and knee. Seems like he is incredible wealthy. Text him to get him in early for a Starting Point",4/8/2025
+"Karmin, Lynne",Active,Green,,2x/Week,Monthly,$299.00,6/16/2024,9/14/2024,FALSE,,,,TRUE,FALSE,"Susie Cummings Friend. Give 100, Get 100. Has another friend interested in Flexx. 60 years old, most likely stability. 2x/week",6/16/2024
+"Cooper, Isabell",Active,Green,,2x/Week,Monthly,$299.00,6/10/2024,9/8/2024,FALSE,,,,TRUE,FALSE,Had breast cancer 3 years ago. 2-3 times a week. Stability level,6/10/2024
+"Erickson, Peggy",Active,Green,,2x/Week,Monthly,$299.00,6/10/2024,9/8/2024,FALSE,,,,TRUE,FALSE,"Procedure this Thursday (6/13) Strength mindset, upper stabillity movement quality. You can push her, but will have to pull her back",6/10/2024
+"Geisheimer, April",Active,Green,,2x/Week,Monthly,$299.00,6/9/2024,9/7/2024,FALSE,,,,TRUE,FALSE,Two kids going off to college (University of Houston and West Chicago Graduate Program; might want them to potentially join),6/9/2024
+"Geisheimer, Molly",Active,Green,,2x/Week,Monthly,$199.00,6/9/2024,9/7/2024,FALSE,,,,FALSE,TRUE,,5/20/2025
+"Hart, Jacqueline",Active,Green,,3x/Week,Monthly,$399.00,6/9/2024,9/7/2024,FALSE,,,,TRUE,FALSE,Working out at Glenview until HP opens up. Will be 2x/week. Tuesday/Thursday at 7am,6/9/2024
+"Haggarty, Amy",Active,Green,,1x/Week,Monthly,$199.00,5/31/2024,8/29/2024,FALSE,,,,FALSE,FALSE,Yoga and Pilates currently. Seems to have friends interested. 1x/week.,5/31/2024
+"Chusin, Andrea",Active,Green,,2x/Week,Monthly,$299.00,5/28/2024,8/26/2024,FALSE,,,,TRUE,FALSE,Lot of friends in the area. Reading Specialist. ,5/28/2024
+"Kane, Lindsey",Active,Green,,3x/Week,Monthly,$399.00,5/25/2024,8/23/2024,FALSE,,,,TRUE,FALSE,"Returns June 10th. Tues/Frid - 6am, Wed 6:30pm. 3x/week.",5/25/2024

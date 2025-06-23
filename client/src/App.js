@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
-import Dashboard from './pages/Dashboard';
-import SessionsPage from './pages/SessionsPage';
 import AdminLayout from './layout/AdminLayout';
-import CalendarPage from './pages/CalendarPage';
+import { pageRoutes } from './pages';
 
 function App() {
   const { currentUser } = useAuth();
@@ -14,39 +12,20 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
 
-        {currentUser && (
-          <>
+        {currentUser &&
+          Object.entries(pageRoutes).map(([path, Component]) => (
             <Route
-              path="/"
+              key={path}
+              path={path}
               element={
                 <AdminLayout>
-                  <Dashboard />
+                  <Component />
                 </AdminLayout>
               }
             />
-            <Route
-              path="/sessions"
-              element={
-                <AdminLayout>
-                  <SessionsPage />
-                </AdminLayout>
-              }
-            />
-            <Route
-              path="/calendar"
-              element={
-                <AdminLayout>
-                  <CalendarPage />
-                </AdminLayout>
-              }
-            />
-          </>
-        )}
+          ))}
 
-
-        {!currentUser && (
-          <Route path="*" element={<Navigate to="/login" />} />
-        )}
+        {!currentUser && <Route path="*" element={<Navigate to="/login" />} />}
       </Routes>
     </BrowserRouter>
   );

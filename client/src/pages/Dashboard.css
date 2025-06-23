@@ -1,0 +1,41 @@
+.stats-grid {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: none;
+  min-width: 120px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.stat-card p {
+  margin: 0.25rem 0 0;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.stat-card.active {
+  background-color: #007bff;
+}
+
+.stat-card.green-hold {
+  background-color: #28a745;
+}
+
+.stat-card.yellow-hold {
+  background-color: #ffc107;
+  color: #333;
+}

@@ -2,20 +2,23 @@ import { useEffect, useState } from 'react';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import AddSessionModal from '../components/AddSessionModal';
+import SkeletonRow from '../components/SkeletonRow';
 
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export default function SessionsPage() {
   const [sessions, setSessions] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchSessions = async () => {
-    const querySnapshot = await getDocs(collection(db, 'sessions'));
-    const sessionList = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setSessions(sessionList);
+    // Simulate delay
+    setTimeout(async () => {
+      const snapshot = await getDocs(collection(db, 'sessions'));
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setSessions(data);
+      setLoading(false);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -62,7 +65,16 @@ export default function SessionsPage() {
       {daysOfWeek.map(day => (
         <div key={day} style={{ marginBottom: '2rem' }}>
           <h3>{day}</h3>
-          {groupedSessions[day] && groupedSessions[day].length > 0 ? (
+
+          {loading ? (
+            <ul>
+              {[...Array(3)].map((_, i) => (
+                <li key={i}>
+                  <div className="skeleton-loader" style={{ width: '200px', height: '16px', marginBottom: '0.5rem' }} />
+                </li>
+              ))}
+            </ul>
+          ) : groupedSessions[day] && groupedSessions[day].length > 0 ? (
             <ul>
               {groupedSessions[day].map((session, i) => (
                 <li key={i}>
@@ -87,6 +99,7 @@ export default function SessionsPage() {
           )}
         </div>
       ))}
+
 
       {showModal && (
         <AddSessionModal

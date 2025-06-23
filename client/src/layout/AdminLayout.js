@@ -7,7 +7,7 @@ export default function AdminLayout({ children }) {
       <AdminNavbar />
       <div style={{ display: 'flex' , marginTop: '60px'}}>
         <AdminSidebar />
-        <main style={{ padding: '1rem', width: '100%' }}>
+        <main style={{ padding: '1rem', flexGrow: 1 }}>
           {children}
         </main>
       </div>
