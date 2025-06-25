@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 import './MembersPage.css';
+import { getTempClass, getStatusClass } from '../utils/memberUtils';
 
 export default function MembersPage() {
   const [members, setMembers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -18,24 +21,6 @@ export default function MembersPage() {
 
     fetchMembers();
   }, []);
-
-  const getStatusClass = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'active': return 'status-blue';
-      case 'green hold': return 'status-green';
-      case 'yellow hold': return 'status-yellow';
-      default: return '';
-    }
-  };
-
-  const getTempClass = (temp) => {
-    switch (temp?.toLowerCase()) {
-      case 'green': return 'status-green';
-      case 'yellow': return 'status-yellow';
-      case 'red': return 'status-red';
-      default: return '';
-    }
-  };
 
   return (
     <div className="members-page">
@@ -57,7 +42,11 @@ export default function MembersPage() {
           </thead>
           <tbody>
             {members.map((m) => (
-              <tr key={m.id}>
+              <tr
+                key={m.id}
+                onClick={() => navigate(`/members/${m.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <td>{m.lastName}</td>
                 <td>{m.firstName}</td>
                 <td><span className={`pill ${getStatusClass(m.membershipStatus)}`}>{m.membershipStatus}</span></td>

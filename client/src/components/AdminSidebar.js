@@ -5,28 +5,25 @@ import './AdminSidebar.css';
 export default function AdminSidebar() {
   const [collapsed, setCollapsed] = useState(false);
 
+  const links = [
+    { icon: '🏠', name: 'Dashboard', linkTo: '/' },
+    { icon: '📅', name: 'Calendar', linkTo: '/calendar' },
+    { icon: '👥', name: 'Members', linkTo: '/members' },
+    { icon: '📆', name: 'Sessions', linkTo: '/sessions' },
+    { icon: '📊', name: 'Reports', linkTo: '/reports' },
+  ];
+
   return (
     <aside className={`admin-sidebar ${collapsed ? 'collapsed' : ''}`}>
       <button className="collapse-toggle" onClick={() => setCollapsed(!collapsed)}>
         {collapsed ? '→' : '←'}
       </button>
       <nav>
-        <NavLink to="/" end className="nav-link">
-          🏠 {!collapsed && <span className="sidebar-text">Dashboard</span>}
-        </NavLink>
-        <NavLink to="/calendar" className="nav-link">
-          📅 {!collapsed && <span className="sidebar-text">Calendar</span>}
-        </NavLink>
-        <NavLink to="/members" className="nav-link">
-          👥 {!collapsed && <span className="sidebar-text">Members</span>}
-        </NavLink>
-        <NavLink to="/sessions" className="nav-link">
-          📆 {!collapsed && <span className="sidebar-text">Sessions</span>}
-        </NavLink>
-        <NavLink to="/reports" className="nav-link">
-          📊 {!collapsed && <span className="sidebar-text">Reports</span>}
-        </NavLink>
-
+        {links.map(({ icon, name, linkTo }) => (
+          <NavLink key={linkTo} to={linkTo} end className="nav-link">
+            {icon} {!collapsed && <span className="sidebar-text">{name}</span>}
+          </NavLink>
+        ))}
       </nav>
     </aside>
   );
