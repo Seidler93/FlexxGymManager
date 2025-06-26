@@ -3,9 +3,11 @@ import { useParams } from 'react-router-dom';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import ProfileCard from '../components/ProfileCard';
-import InfoSection from '../components/InfoSection';
 import EditModal from '../components/EditModal';
+import MemberInfo from '../components/MemberInfo.jsx';
+import BillingTab from '../components/BillingTab.jsx';
 import './MemberAccountPage.js'
+import { getDocumentById } from '../utils/firestoreHelpers.js';
 
 export default function MemberAccountPage() {
   const { memberId } = useParams();
@@ -16,24 +18,21 @@ export default function MemberAccountPage() {
   const [activeTab, setActiveTab] = useState('home');
 
   useEffect(() => {
-    const fetchMember = async () => {
-      try {
-        const docRef = doc(db, 'members', memberId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setMember({ id: docSnap.id, ...docSnap.data() });
-        } else {
-          console.warn('No such member!');
+      const fetchMember = async () => {
+        try {
+          const data = await getDocumentById('members', memberId);
+          if (data) {
+            setMember(data);
+          }
+        } catch (error) {
+          console.error('Error loading member:', error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error fetching member:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMember();
-  }, [memberId]);
+      };
+  
+      fetchMember();
+    }, [memberId]);
 
   return (
     <>
@@ -58,79 +57,37 @@ export default function MemberAccountPage() {
           </div>
 
           {activeTab === 'home' && (
-            <div className='member-info-page'>
-              <InfoSection
-                title="Personal Information"
-                data={[
-                  { label: 'First Name', value: member.firstName },
-                  { label: 'Last Name', value: member.lastName },
-                  { label: 'Date of Birth', value: member.dateOfBirth },
-                  { label: 'Email Address', value: member.email },
-                  { label: 'Phone Number', value: member.phone },
-                  { label: 'User Role', value: member.role },
-                ]}
-                onEdit={(sectionData) => {
-                  setEditSectionData(sectionData);
-                  setShowEditModal(true);
-                }}
-              />
+            <MemberInfo
+              member={member}
+              setEditSectionData={setEditSectionData}
+              setShowEditModal={setShowEditModal}
+            />
+          )}
 
-              <InfoSection
-                title="Info"
-                data={[
-                  { label: 'Start Date', value: member.startDate },
-                  { label: 'Days Per Week', value: member.daysPerWeek },
-                  { label: 'Payment Frequency', value: member.paymentOption },
-                  { label: 'Price Point', value: member.pricePoint },
-                  { label: 'Referral Member', value: member.referralMember || ''},
-                ]}
-                onEdit={(sectionData) => {
-                  setEditSectionData(sectionData);
-                  setShowEditModal(true);
-                }}
-              />
-
-              <InfoSection
-                title="Address"
-                data={[
-                  { label: 'Country', value: member.country },
-                  { label: 'City', value: member.city },
-                  { label: 'Postal Code', value: member.postalCode },
-                ]}
-                onEdit={(sectionData) => {
-                  setEditSectionData(sectionData);
-                  setShowEditModal(true);
-                }}
-              />
+          {activeTab === 'schedule' && (
+            <div>
+              <h3>Schedule (Coming Soon)</h3>
             </div>
           )}
 
-        {activeTab === 'schedule' && (
-          <div>
-            <h3>Schedule (Coming Soon)</h3>
-          </div>
-        )}
+          {activeTab === 'billing' && (
+            <BillingTab/>
+          )}
 
-        {activeTab === 'billing' && (
-          <div>
-            <h3>Billing Info (Coming Soon)</h3>
-          </div>
-        )}
-
-        {showEditModal && (
-          <EditModal
-            member={member}
-            sectionData={editSectionData}
-            onClose={() => setShowEditModal(false)}
-            onSave={async (updatedFields) => {
-              const updatedMember = { ...member, ...updatedFields };
-              await updateDoc(doc(db, 'members', member.id), updatedFields);
-              setMember(updatedMember);
-              setShowEditModal(false);
-            }}
-          />
-        )}
-      </div>
+          {showEditModal && (
+            <EditModal
+              member={member}
+              sectionData={editSectionData}
+              onClose={() => setShowEditModal(false)}
+              onSave={async (updatedFields) => {
+                const updatedMember = { ...member, ...updatedFields };
+                await updateDoc(doc(db, 'members', member.id), updatedFields);
+                setMember(updatedMember);
+                setShowEditModal(false);
+              }}
+            />
+          )}
+        </div>
       )}
     </>
   );
