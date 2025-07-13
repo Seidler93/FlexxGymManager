@@ -1,4 +1,5 @@
 import InfoSection from "./InfoSection";
+import MembershipInfoSection from "./MembershipInfoSection";
 import '../pages/MemberAccountPage.css'
 
 export default function MemberInfo({member, setEditSectionData, setShowEditModal}) {
@@ -13,7 +14,6 @@ export default function MemberInfo({member, setEditSectionData, setShowEditModal
           { label: 'Date of Birth', value: member.dateOfBirth },
           { label: 'Email Address', value: member.email },
           { label: 'Phone Number', value: member.phone },
-          { label: 'User Role', value: member.role },
         ]}
         onEdit={(sectionData) => {
           setEditSectionData(sectionData);
@@ -21,20 +21,7 @@ export default function MemberInfo({member, setEditSectionData, setShowEditModal
         }}
       />
 
-      <InfoSection
-        title="Info"
-        data={[
-          { label: 'Start Date', value: member.startDate },
-          { label: 'Days Per Week', value: member.daysPerWeek },
-          { label: 'Payment Frequency', value: member.paymentOption },
-          { label: 'Price Point', value: member.pricePoint },
-          { label: 'Referral Member', value: member.referralMember || ''},
-        ]}
-        onEdit={(sectionData) => {
-          setEditSectionData(sectionData);
-          setShowEditModal(true);
-        }}
-      />
+      <MembershipInfoSection member={member} />
 
       <InfoSection
         title="Address"

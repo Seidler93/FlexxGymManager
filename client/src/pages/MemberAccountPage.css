@@ -156,13 +156,8 @@
   flex-wrap: wrap;
 }
 
-.billing-card {
-  flex: 1;
-  min-width: 280px;
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+.invoice-table td {
+  text-align: center;
 }
 
 .subscription-table,
@@ -200,7 +195,7 @@
   background: #fff;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
 }
 
 .progress-bar {
@@ -244,7 +239,7 @@
   background: #fff;
   border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .billing-card h4 {
@@ -351,13 +346,27 @@
   background: #333;
 }
 
+.billing-container {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+}
+
 .billing-overview-card {
   background: #fff;
-  border-radius: 10px;
-  padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: auto;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  max-width: 300px;
+}
+
+.billing-card {
+  min-width: 280px;
+  max-width: 300px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .billing-overview-header {
@@ -465,4 +474,276 @@
   color: #d32f2f;
   cursor: pointer;
   font-weight: bold;
+}
+
+.member-schedule-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.schedule-section {
+  flex: 1;
+  min-width: 300px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.schedule-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.session-list {
+  list-style: none;
+  padding: 0;
+}
+
+.session-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.member-schedule-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.schedule-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.session-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.week-group {
+  margin-bottom: 1.5rem;
+}
+
+.week-group h4 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.remove-button {
+  margin-left: 1rem;
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.member-schedule-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.schedule-section {
+  flex: 1;
+  min-width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.schedule-section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.week-group {
+  margin-bottom: 1.5rem;
+}
+
+.week-group h4 {
+  font-size: 0.95rem;
+  color: #444;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.25rem;
+}
+
+.session-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.session-item span {
+  font-size: 0.95rem;
+}
+
+.session-item strong {
+  font-weight: 600;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.remove-button:hover {
+  color: darkred;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-container button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 4px;
+  z-index: 1000;
+  min-width: 180px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.dropdown-menu li {
+  padding: 10px 12px;
+  cursor: pointer;
+  color: white;
+}
+
+.dropdown-menu li:hover {
+  background-color: #333;
+}
+
+.billing-toggle {
+  background: #f4f4f4;
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 1rem;
+}
+
+.billing-toggle button {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 500;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.billing-toggle button.active {
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.edit-button {
+  background-color: #eee;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #333;
+}
+
+.edit-button:hover {
+  background-color: #ddd;
+}
+
+.pill.scheduled {
+  background-color: #e0e7ff;
+  color: #3b47c3;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Modal overlay that covers the entire screen */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* black with transparency */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content box */
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
 }

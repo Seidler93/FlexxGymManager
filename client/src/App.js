@@ -3,6 +3,8 @@ import { useAuth } from './contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
 import AdminLayout from './layout/AdminLayout';
 import { pageRoutes } from './pages';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { currentUser } = useAuth();
@@ -27,6 +29,7 @@ function App() {
 
         {!currentUser && <Route path="*" element={<Navigate to="/login" />} />}
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} />
     </BrowserRouter>
   );
 }

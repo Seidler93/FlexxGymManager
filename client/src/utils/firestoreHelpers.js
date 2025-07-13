@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, arrayUnion } from 'firebase/firestore';
 
 // Fetch a document by ID
 export const getDocById = async (collectionName, id) => {
@@ -57,3 +57,32 @@ export const getDocumentById = async (collectionName, docId) => {
     throw error;
   }
 };
+
+/**
+ * Pauses a member's membership by updating their status and recording the hold.
+ * 
+ * @param {string} memberId - The Firestore ID of the member.
+ * @param {Date} startDate - The start date of the hold.
+ * @param {Date} endDate - The end date of the hold.
+ */
+export async function pauseMembership(memberId, startDate, endDate) {
+  const durationInDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+  const status = durationInDays <= 28 ? 'Hold' : 'Extended Hold';
+
+  const holdEntry = {
+    startDate: startDate.toISOString(),
+    endDate: endDate.toISOString(),
+  };
+
+  const memberRef = doc(db, 'members', memberId);
+
+  try {
+    await updateDoc(memberRef, {
+      membershipStatus: status,
+      holds: arrayUnion(holdEntry),
+    });
+  } catch (error) {
+    console.error('Error pausing membership:', error);
+    throw error;
+  }
+}
