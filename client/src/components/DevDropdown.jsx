@@ -1,6 +1,6 @@
 // components/DevDropdown.jsx
 import { useState } from 'react';
-import { collection, getDocs, deleteDoc, doc, addDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, addDoc, updateDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export default function DevDropdown() {
@@ -68,6 +68,43 @@ export default function DevDropdown() {
 
     alert('Member names cleaned successfully!');
   };
+
+  const setHolds = async () => {
+    const snapshot = await getDocs(collection(db, 'members'));
+
+    for (const docSnap of snapshot.docs) {
+      const data = docSnap.data();
+      const docRef = doc(db, 'members', docSnap.id);
+
+      if (data.membershipStatus === "Green Hold") {
+        const newHold = {
+          startDate: Timestamp.now(),
+          returnDate: null,
+          nextContactDate: null,
+          holdNotes: "Auto-added green hold"
+        };
+
+        await updateDoc(docRef, {
+          holds: [...(data.holds || []), newHold],
+          membershipStatus: "Hold"
+
+        });
+
+      } else if (data.membershipStatus === "Yellow Hold") {
+        const newExtendedHold = {
+          startDate: Timestamp.now(),
+          returnDate: null,
+          nextContactDate: null,
+          holdNotes: "Auto-added yellow hold"
+        };
+
+        await updateDoc(docRef, {
+          holds: [...(data.extendedHolds || []), newExtendedHold],
+          membershipStatus: "Extended Hold"
+        });
+      }
+    }
+  };
   
 
   return (
@@ -82,6 +119,7 @@ export default function DevDropdown() {
           <button onClick={handleSeedFromCSV}>Seed Members from CSV</button>
           <button onClick={handleDeleteAllMembers}>Delete All Members</button>
           <button onClick={handleCleanMemberNames}>Clean Member Names</button>
+          <button onClick={setHolds}>Update Member Holds</button>
         </div>
       )}
     </div>

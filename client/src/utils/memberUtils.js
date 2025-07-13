@@ -1,8 +1,8 @@
 export function getStatusClass(status) {
   switch (status?.toLowerCase()) {
     case 'active': return 'status-blue';
-    case 'green hold': return 'status-green';
-    case 'yellow hold': return 'status-yellow';
+    case 'hold': return 'status-green';
+    case 'extended hold': return 'status-yellow';
     default: return '';
   }
 }
