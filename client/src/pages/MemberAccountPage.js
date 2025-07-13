@@ -9,10 +9,13 @@ import BillingTab from '../components/BillingTab.jsx';
 import MemberSchedule from '../components/MemberSchedule.jsx';
 import './MemberAccountPage.js'
 import { getDocumentById } from '../utils/firestoreHelpers.js';
+import { useMember } from '../context/MemberContext.js';
+import { useUpdateMember } from '../utils/firestoreHelpers.js';
 
 export default function MemberAccountPage() {
   const { memberId } = useParams();
-  const [member, setMember] = useState(null);
+  const { member, setMember } = useMember();
+  const { updateMember } = useUpdateMember();
   const [loading, setLoading] = useState(true);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editSectionData, setEditSectionData] = useState([]);
@@ -83,7 +86,7 @@ export default function MemberAccountPage() {
         <p>Member not found.</p>
       ) : (
         <div className="member-info-page">
-          <ProfileCard member={member} />
+          <ProfileCard/>
 
           <div className="member-tab-nav">
             <button className={`tab-button ${activeTab === 'home' ? 'active' : ''}`} onClick={() => setActiveTab('home')}>
@@ -115,15 +118,8 @@ export default function MemberAccountPage() {
 
           {showEditModal && (
             <EditModal
-              member={member}
               sectionData={editSectionData}
               onClose={() => setShowEditModal(false)}
-              onSave={async (updatedFields) => {
-                const updatedMember = { ...member, ...updatedFields };
-                await updateDoc(doc(db, 'members', member.id), updatedFields);
-                setMember(updatedMember);
-                setShowEditModal(false);
-              }}
             />
           )}
         </div>

@@ -2,8 +2,10 @@ import { useState } from 'react';
 import '../pages/MemberAccountPage.css';
 
 export default function PauseMembershipModal({ isOpen, onClose, onSubmit }) {
-  const [startDate, setStartDate] = useState('');
+  const today = new Date().toLocaleDateString('en-CA'); // format: YYYY-MM-DD
+  const [startDate, setStartDate] = useState(today);
   const [returnDate, setReturnDate] = useState('');
+  const [nextContactDate, setnextContactDate] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -12,7 +14,7 @@ export default function PauseMembershipModal({ isOpen, onClose, onSubmit }) {
 
     setLoading(true);
     try {
-      await onSubmit({ startDate, returnDate, notes });
+      await onSubmit({ startDate, returnDate, notes, nextContactDate });
     } catch (err) {
       console.error('Pause submission failed:', err);
     } finally {
@@ -40,6 +42,14 @@ export default function PauseMembershipModal({ isOpen, onClose, onSubmit }) {
             type="date"
             value={returnDate}
             onChange={(e) => setReturnDate(e.target.value)}
+          />
+        </label>
+        <label>
+          Next Contact Date (optional):
+          <input
+            type="date"
+            value={nextContactDate}
+            onChange={(e) => setnextContactDate(e.target.value)}
           />
         </label>
         <label>

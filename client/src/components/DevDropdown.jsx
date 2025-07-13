@@ -105,6 +105,31 @@ export default function DevDropdown() {
       }
     }
   };
+
+  const convertSessionDatesToTimestamps = async () => {
+    const snapshot = await getDocs(collection(db, 'sessionInstances'));
+    const updates = [];
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const docRef = doc(db, 'sessionInstances', docSnap.id);
+
+      if (typeof data.date === 'string') {
+        try {
+          const [year, month, day] = data.date.split('-');
+          const dateObj = new Date(`${year}-${month}-${day}T00:00:00`);
+          const timestamp = Timestamp.fromDate(dateObj);
+
+          updates.push(updateDoc(docRef, { date: timestamp }));
+        } catch (err) {
+          console.error(`Failed to parse date for ${docSnap.id}`, err);
+        }
+      }
+    });
+
+    await Promise.all(updates);
+    console.log('SessionInstances date fields converted to Timestamps!');
+  }
   
 
   return (
@@ -120,6 +145,7 @@ export default function DevDropdown() {
           <button onClick={handleDeleteAllMembers}>Delete All Members</button>
           <button onClick={handleCleanMemberNames}>Clean Member Names</button>
           <button onClick={setHolds}>Update Member Holds</button>
+          <button onClick={convertSessionDatesToTimestamps}>Fix Instance Date Format</button>
         </div>
       )}
     </div>

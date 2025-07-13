@@ -9,6 +9,7 @@ export default function MembersPage() {
   const [members, setMembers] = useState([]);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const fetchMembers = async () => {
       const snapshot = await getDocs(collection(db, 'members'));

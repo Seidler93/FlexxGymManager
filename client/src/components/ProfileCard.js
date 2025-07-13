@@ -1,4 +1,5 @@
 import '../pages/MemberAccountPage.css'
+import { useMember } from '../context/MemberContext';
 
 const avatarColors = [
   '#F44336', '#E91E63', '#9C27B0', '#3F51B5',
@@ -22,7 +23,8 @@ function getRandomColor(seed) {
   return avatarColors[total % avatarColors.length];
 }
 
-export default function ProfileCard({ member }) {
+export default function ProfileCard() {
+  const { member } = useMember(); 
   const fullName = `${member.firstName || ''} ${member.lastName || ''}`.trim();
   const initials = getInitials(fullName);
   const bgColor = getRandomColor(fullName);

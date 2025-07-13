@@ -7,7 +7,8 @@ import { toast } from 'react-toastify';
 export default function MembershipInfoSection({ member }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showPauseModal, setShowPauseModal] = useState(false);
-
+  const [memberInfo, setMemberInfo] = useState(member)
+  
   const membershipData = [
     { label: 'Start Date', value: member.startDate },
     { label: 'Days Per Week', value: member.daysPerWeek },
@@ -55,12 +56,13 @@ export default function MembershipInfoSection({ member }) {
       <PauseMembershipModal
         isOpen={showPauseModal}
         onClose={() => setShowPauseModal(false)}
-        onSubmit={async ({ startDate, returnDate }) => {
+        onSubmit={async ({ startDate, returnDate, notes, nextContactDate }) => {
           try {
             const start = new Date(startDate);
-            const end = returnDate ? new Date(returnDate) : new Date(startDate);
+            const end = returnDate ? new Date(returnDate) : null;
+            const nextContact = nextContactDate ? new Date(nextContactDate) : null;
 
-            await pauseMembership(member.id, start, end);
+            await pauseMembership(member.id, start, end, notes, nextContact);
             toast.success('Membership paused successfully!');
           } catch (err) {
             console.error(err);

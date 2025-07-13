@@ -7,6 +7,7 @@ import { db } from '../firebase';
 import AddMemberModal from './AddMemberModal';
 import DevDropdown from './DevDropdown';
 import Fuse from 'fuse.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function AdminNavbar({ onAddMember }) {
   const { currentUser, logout } = useAuth();
@@ -17,6 +18,7 @@ export default function AdminNavbar({ onAddMember }) {
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [fuseInstance, setFuseInstance] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -36,6 +38,13 @@ export default function AdminNavbar({ onAddMember }) {
     };
     fetchMembers();
   }, []);
+
+  const clickedResult = (memberId) => {
+    setDropdownOpen(false);
+    setShowSearchResults(false);
+    setSearchText('');
+    navigate(`/members/${memberId}`)
+  }
 
   const initials = currentUser?.displayName
     ? currentUser.displayName.split(' ').map(n => n[0]).join('')
@@ -83,7 +92,7 @@ export default function AdminNavbar({ onAddMember }) {
               ) : (
                 <ul className="results-list">
                   {filteredMembers.map(member => (
-                    <li key={member.id} className="result-item">
+                    <li key={member.id} className="result-item" onClick={() => clickedResult(member.id)}>
                       {member.lastName}, {member.firstName}{member.email ? ` — ${member.email}` : ''}
                     </li>
                   ))}

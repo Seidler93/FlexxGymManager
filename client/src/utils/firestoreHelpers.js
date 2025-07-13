@@ -1,5 +1,6 @@
 import { db } from '../firebase';
 import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, arrayUnion } from 'firebase/firestore';
+import { useMember } from '../context/MemberContext';
 
 // Fetch a document by ID
 export const getDocById = async (collectionName, id) => {
@@ -65,9 +66,18 @@ export const getDocumentById = async (collectionName, docId) => {
  * @param {Date} startDate - The start date of the hold.
  * @param {Date} endDate - The end date of the hold.
  */
-export async function pauseMembership(memberId, startDate, endDate) {
-  const durationInDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-  const status = durationInDays <= 28 ? 'Hold' : 'Extended Hold';
+export async function pauseMembership(memberId, startDate, endDate, notes, nextContactDate) {
+  let status;
+
+  if (!endDate) {
+    status = "Extended Hold";
+  } else {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const durationInDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+    status = durationInDays <= 28 ? "Hold" : "Extended Hold";
+  }
+
 
   const holdEntry = {
     startDate: startDate.toISOString(),
@@ -80,9 +90,36 @@ export async function pauseMembership(memberId, startDate, endDate) {
     await updateDoc(memberRef, {
       membershipStatus: status,
       holds: arrayUnion(holdEntry),
+      nextContactDate: nextContactDate,
+      holdNotes: notes
     });
   } catch (error) {
     console.error('Error pausing membership:', error);
     throw error;
   }
 }
+
+export const useUpdateMember = () => {
+  const { member, setMember } = useMember();
+
+  const updateMember = async (updatedFields) => {
+    if (!member?.id) return;
+
+    const updatedMember = { ...member, ...updatedFields };
+
+    // Optimistically update local context
+    setMember(updatedMember);
+
+    try {
+      await updateDoc(doc(db, 'members', member.id), updatedFields);
+    } catch (error) {
+      console.error("Failed to update member:", error);
+      // Optionally rollback or show error
+    }
+  };
+
+  console.log(member?.firstName);
+  
+
+  return { updateMember };
+};

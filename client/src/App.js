@@ -5,6 +5,7 @@ import AdminLayout from './layout/AdminLayout';
 import { pageRoutes } from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { MemberProvider } from './context/MemberContext';
 
 function App() {
   const { currentUser } = useAuth();
@@ -20,9 +21,11 @@ function App() {
               key={path}
               path={path}
               element={
-                <AdminLayout>
-                  <Component />
-                </AdminLayout>
+                <MemberProvider> 
+                  <AdminLayout>
+                    <Component />
+                  </AdminLayout>
+                </MemberProvider>
               }
             />
           ))}

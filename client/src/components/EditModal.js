@@ -1,32 +1,37 @@
 import { useState } from 'react';
 import '../pages/MemberAccountPage.css'
+import { useUpdateMember } from '../utils/firestoreHelpers';
 
-export default function EditModal({ sectionData, onClose, onSave }) {
+export default function EditModal({ sectionData, onClose }) {
+  const { updateMember } = useUpdateMember();
+
   const initialValues = sectionData.reduce((acc, item) => {
-    acc[item.label] = item.value || '';
+    acc[item.dbName] = item.value || '';
+    return acc;
+  }, {});
+
+  const labelMap = sectionData.reduce((acc, item) => {
+    acc[item.dbName] = item.label;
     return acc;
   }, {});
 
   const [formData, setFormData] = useState(initialValues);
 
-  const handleChange = (label, value) => {
-    setFormData(prev => ({ ...prev, [label]: value }));
-  };
-
-  const handleSubmit = () => {
-    onSave(formData);
+  const handleSubmit = async () => {
+    await updateMember(formData);
+    onClose();
   };
 
   return (
     <div className="edit-modal">
       <div className="modal-content">
         <h3>Edit Info</h3>
-        {Object.keys(formData).map((label) => (
-          <div key={label} className="form-row">
-            <label>{label}</label>
+        {Object.keys(formData).map((field) => (
+          <div key={field} className="form-row">
+            <label>{labelMap[field]}</label>
             <input
-              value={formData[label]}
-              onChange={(e) => handleChange(label, e.target.value)}
+              value={formData[field]}
+              onChange={(e) => setFormData((prev) => ({ ...prev, [field]: e.target.value }))}
             />
           </div>
         ))}

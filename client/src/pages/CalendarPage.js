@@ -1,17 +1,42 @@
 import { useEffect, useState } from 'react';
-import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, deleteDoc, writeBatch, query, where, Timestamp, arrayUnion, } from 'firebase/firestore';
 import { db } from '../firebase';
-
+import AddMemberToClassModal from '../components/AddMemberToClassModal';
+import { useNavigate } from 'react-router-dom';
 const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat','Sun'];
 
 export default function CalendarPage() {
   const [instances, setInstances] = useState([]);
   const [expandedInstance, setExpandedInstance] = useState(null);
   const [currentWeekStart, setCurrentWeekStart] = useState(getStartOfWeek(new Date()));
+  const [showSearchModal, setShowSearchModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null)
+  const [recurring, setRecurring] = useState(false)
+  const [selectedInstance, setSelectedInstance] = useState(false)
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchInstances();
   }, []);
+
+  const addMemberToClass = (member) => {
+    console.log(selectedInstance, member);
+    
+    if (!recurring) {
+      handleAddAttendee(selectedInstance, member);
+    } else {
+      console.log('adding recurring');
+      
+      handleAddRecurring(selectedInstance, member);
+    }
+    
+  }
+
+  const showModal = (frequency, instance) => {
+    setShowSearchModal(true);
+    setSelectedInstance(instance)
+    setRecurring(frequency !== "single")
+  }
 
   const fetchInstances = async () => {
     const querySnapshot = await getDocs(collection(db, 'sessionInstances'));
@@ -39,25 +64,90 @@ export default function CalendarPage() {
   });
 
   instances.forEach(inst => {
-    if (getWeekDates().includes(inst.date)) {
-      groupedByDay[inst.date].push(inst);
-    }
+    if (inst.date?.toDate) {
+      const formattedDate = inst.date.toDate().toISOString().split('T')[0];
+      if (getWeekDates().includes(formattedDate)) {
+        groupedByDay[formattedDate].push({ ...inst, date: formattedDate });
+      }
+    }    
   });
 
   const toggleExpand = (id) => {
     setExpandedInstance(prev => (prev === id ? null : id));
   };
 
-  const handleAddAttendee = async (instance) => {
-    const name = prompt('Enter name to add:');
-    if (!name) return;
+  const handleAddAttendee = async (instance, member) => {
+    if (!member) return;
 
+    const memberToAdd = {
+      name: `${member.lastName}, ${member.firstName}`,
+      memberId: member.id
+    }
+    
     const ref = doc(db, 'sessionInstances', instance.id);
     const attendees = instance.attendees || [];
-    const updatedAttendees = [...attendees, name];
+    const updatedAttendees = [...attendees, memberToAdd];
 
     await updateDoc(ref, { attendees: updatedAttendees });
     fetchInstances();
+  };
+
+  const handleAddRecurring = async (selectedInstance, member) => {
+    if (!member || !selectedInstance) return;
+    
+    
+    const sessionId = selectedInstance.sessionId;
+    const today = Timestamp.now();
+    
+    // 1. Get all future sessionInstances with the same sessionId
+    const q = query(
+      collection(db, 'sessionInstances'),
+      where('sessionId', '==', sessionId),
+      where('date', '>=', today)
+    );
+    
+    const snapshot = await getDocs(q);
+    const batch = writeBatch(db);
+    
+    const memberToAdd = {
+      name: `${member.lastName}, ${member.firstName}`,
+      memberId: member.id,
+    };
+    
+    const sessionsAdded = [];
+    
+    // 2. Add member to each matching sessionInstance
+    snapshot.forEach((docSnap) => {
+      console.log('here');
+      const instance = docSnap.data();
+      const instanceRef = doc(db, 'sessionInstances', docSnap.id);
+      console.log(instance);
+      
+      
+      const currentAttendees = instance.attendees || [];
+      const alreadyAdded = currentAttendees.some(
+        (a) => a.memberId === member.id
+      );
+      
+      if (!alreadyAdded) {
+        const updatedAttendees = [...currentAttendees, memberToAdd];
+        batch.update(instanceRef, { attendees: updatedAttendees });
+        sessionsAdded.push(docSnap.id);
+      }
+    });
+
+    // 3. Update member doc with sessions and recurringSessions
+    if (sessionsAdded.length > 0) {
+      const memberRef = doc(db, 'members', member.id);
+
+      batch.update(memberRef, {
+        sessions: arrayUnion(...sessionsAdded),
+        recurringSessions: arrayUnion(sessionId),
+      });
+    }
+
+    // 4. Commit the batch
+    await batch.commit();
   };
 
   const handleDeleteInstance = async (id) => {
@@ -121,18 +211,19 @@ export default function CalendarPage() {
 
                         </div>
                         <div>
-                          <button onClick={() => handleAddAttendee(instance)} title="Add attendee">➕</button>{' '}
+                          <button onClick={() => showModal("single", instance)} title="Add attendee">➕</button>{' '}
                           <button onClick={() => handleDeleteInstance(instance.id)} title="Delete session">🗑️</button>{' '}
                           <button onClick={() => toggleExpand(instance.id)}>{isExpanded ? 'Collapse' : 'Expand'}</button>
-                        </div>
+                          <button onClick={() => showModal("recurring", instance)}>Add Recurring</button>
+                          </div>
                       </div>
 
                       {isExpanded && (
                         <div style={{ marginTop: '0.5rem', paddingLeft: '1rem' }}>
                           <p><strong>Attendees:</strong></p>
                           {attendees.length > 0 ? (
-                            <ul>
-                              {attendees.map((name, i) => <li key={i}>{name}</li>)}
+                            <ul >
+                              {attendees.map((attendee, i) => <li key={i} onClick={() => navigate(`/members/${attendee.memberId}`)}>{attendee.name}</li>)}
                             </ul>
                           ) : <p style={{ fontStyle: 'italic' }}>No attendees yet.</p>}
 
@@ -153,6 +244,11 @@ export default function CalendarPage() {
           )}
         </div>
       ))}
+      <AddMemberToClassModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+        addMemberToClass={addMemberToClass}
+      />
     </div>
   );
 }
