@@ -19,17 +19,12 @@ export default function CalendarPage() {
     fetchInstances();
   }, []);
 
-  const addMemberToClass = (member) => {
-    console.log(selectedInstance, member);
-    
+  const addMemberToClass = (member) => {    
     if (!recurring) {
       handleAddAttendee(selectedInstance, member);
-    } else {
-      console.log('adding recurring');
-      
+    } else {     
       handleAddRecurring(selectedInstance, member);
     }
-    
   }
 
   const showModal = (frequency, instance) => {
@@ -65,12 +60,16 @@ export default function CalendarPage() {
 
   instances.forEach(inst => {
     if (inst.date?.toDate) {
-      const formattedDate = inst.date.toDate().toISOString().split('T')[0];
-      if (getWeekDates().includes(formattedDate)) {
-        groupedByDay[formattedDate].push({ ...inst, date: formattedDate });
+      const dateObj = inst.date.toDate();
+      dateObj.setHours(0, 0, 0, 0); // normalize to local midnight
+      const dateKey = dateObj.toLocaleDateString('en-CA'); // "YYYY-MM-DD"
+
+      if (groupedByDay[dateKey]) {
+        groupedByDay[dateKey].push(inst); // no need to format date here
       }
-    }    
+    }
   });
+  
 
   const toggleExpand = (id) => {
     setExpandedInstance(prev => (prev === id ? null : id));
@@ -78,25 +77,45 @@ export default function CalendarPage() {
 
   const handleAddAttendee = async (instance, member) => {
     if (!member) return;
-
+    console.log(instance);
+    
     const memberToAdd = {
       name: `${member.lastName}, ${member.firstName}`,
       memberId: member.id
+    };
+
+    const sessionRef = doc(db, 'sessionInstances', instance.id);
+    const memberRef = doc(db, 'members', member.id);
+
+    const updatedAttendees = [...(instance.attendees || []), memberToAdd];
+
+    // Session data to add to the user's array
+    const sessionForMember = {
+      instanceId: instance.id,
+      date: instance.date, 
+      startTime: instance.time
+    };
+
+    try {
+      // Use a batch to update both documents atomically
+      const batch = writeBatch(db);
+
+      batch.update(sessionRef, { attendees: updatedAttendees });
+      batch.update(memberRef, {
+        sessions: arrayUnion(sessionForMember)
+      });
+
+      await batch.commit();
+      fetchInstances();
+    } catch (error) {
+      console.error("Error adding attendee and session to member:", error);
     }
-    
-    const ref = doc(db, 'sessionInstances', instance.id);
-    const attendees = instance.attendees || [];
-    const updatedAttendees = [...attendees, memberToAdd];
-
-    await updateDoc(ref, { attendees: updatedAttendees });
-    fetchInstances();
   };
-
-  const handleAddRecurring = async (selectedInstance, member) => {
-    if (!member || !selectedInstance) return;
+  
+  const handleAddRecurring = async (instance, member) => {
+    if (!member || !instance) return;
     
-    
-    const sessionId = selectedInstance.sessionId;
+    const sessionId = instance.sessionId;
     const today = Timestamp.now();
     
     // 1. Get all future sessionInstances with the same sessionId
@@ -118,12 +137,16 @@ export default function CalendarPage() {
     
     // 2. Add member to each matching sessionInstance
     snapshot.forEach((docSnap) => {
-      console.log('here');
       const instance = docSnap.data();
       const instanceRef = doc(db, 'sessionInstances', docSnap.id);
-      console.log(instance);
-      
-      
+
+      // Session data to add to the user's array
+      const sessionForMember = {
+        instanceId: docSnap.id,
+        date: instance.date,
+        startTime: instance.time
+      };
+
       const currentAttendees = instance.attendees || [];
       const alreadyAdded = currentAttendees.some(
         (a) => a.memberId === member.id
@@ -132,7 +155,7 @@ export default function CalendarPage() {
       if (!alreadyAdded) {
         const updatedAttendees = [...currentAttendees, memberToAdd];
         batch.update(instanceRef, { attendees: updatedAttendees });
-        sessionsAdded.push(docSnap.id);
+        sessionsAdded.push(sessionForMember);
       }
     });
 

@@ -7,7 +7,7 @@ export default function AdminSidebar() {
 
   const links = [
     { icon: '🏠', name: 'Dashboard', linkTo: '/' },
-    { icon: '📅', name: 'Calendar', linkTo: '/calendar' },
+    { icon: '📅', name: 'Schedule', linkTo: '/schedule' },
     { icon: '👥', name: 'Members', linkTo: '/members' },
     { icon: '📆', name: 'Sessions', linkTo: '/sessions' },
     { icon: '📊', name: 'Reports', linkTo: '/reports' },

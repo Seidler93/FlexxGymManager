@@ -2,6 +2,10 @@
   max-width: 1600px;
 }
 
+.font-small {
+  font-size: .75rem!important;
+}
+
 .info-section {
   background: white;
   border-radius: 8px;

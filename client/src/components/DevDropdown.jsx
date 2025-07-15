@@ -1,6 +1,6 @@
 // components/DevDropdown.jsx
 import { useState } from 'react';
-import { collection, getDocs, deleteDoc, doc, addDoc, updateDoc, Timestamp } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, addDoc, updateDoc, Timestamp, writeBatch } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export default function DevDropdown() {
@@ -130,6 +130,23 @@ export default function DevDropdown() {
     await Promise.all(updates);
     console.log('SessionInstances date fields converted to Timestamps!');
   }
+
+  const clearAllAttendees = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, "sessionInstances"));
+      const batch = writeBatch(db);
+
+      snapshot.forEach((docSnap) => {
+        const ref = doc(db, "sessionInstances", docSnap.id);
+        batch.update(ref, { attendees: [] });
+      });
+
+      await batch.commit();
+      console.log("✅ All attendees removed from sessionInstances.");
+    } catch (error) {
+      console.error("❌ Failed to clear attendees:", error);
+    }
+  };
   
 
   return (
@@ -146,6 +163,7 @@ export default function DevDropdown() {
           <button onClick={handleCleanMemberNames}>Clean Member Names</button>
           <button onClick={setHolds}>Update Member Holds</button>
           <button onClick={convertSessionDatesToTimestamps}>Fix Instance Date Format</button>
+          <button onClick={clearAllAttendees}>Remove All Attendees</button>
         </div>
       )}
     </div>

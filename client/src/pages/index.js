@@ -7,7 +7,7 @@ import MemberAccountPage from './MemberAccountPage';
 export const pageRoutes = {
   '/': Dashboard, // special case for dashboard
   '/sessions': SessionsPage,
-  '/calendar': CalendarPage,
+  '/schedule': CalendarPage,
   '/members': MembersPage,
   '/members/:memberId': MemberAccountPage,
 };

@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, arrayUnion } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, arrayUnion, runTransaction } from 'firebase/firestore';
 import { useMember } from '../context/MemberContext';
 
 // Fetch a document by ID
@@ -116,10 +116,46 @@ export const useUpdateMember = () => {
       console.error("Failed to update member:", error);
       // Optionally rollback or show error
     }
-  };
-
-  console.log(member?.firstName);
-  
+  };  
 
   return { updateMember };
 };
+
+
+export async function removeMemberFromSession( memberId, instanceId ) {
+  if (!memberId || !instanceId) {
+    console.error("❌ Missing memberId or instanceId");
+    return;
+  }
+
+  const sessionRef = doc(db, 'sessionInstances', instanceId);
+  const memberRef = doc(db, 'members', memberId);
+
+  try {
+    await runTransaction(db, async (transaction) => {
+      const sessionSnap = await transaction.get(sessionRef);
+      const memberSnap = await transaction.get(memberRef);
+
+      if (!sessionSnap.exists() || !memberSnap.exists()) {
+        throw new Error('Session or Member not found');
+      }
+
+      const sessionData = sessionSnap.data();
+      const memberData = memberSnap.data();
+
+      const updatedAttendees = (sessionData.attendees || []).filter(
+        (a) => a.memberId !== memberId
+      );
+      transaction.update(sessionRef, { attendees: updatedAttendees });
+
+      const updatedSessions = (memberData.sessions || []).filter(
+        (s) => s.instanceId !== instanceId
+      );
+      transaction.update(memberRef, { sessions: updatedSessions });
+    });
+
+    console.log(`✅ Removed member ${memberId} from session ${instanceId}`);
+  } catch (error) {
+    console.error("❌ Failed to remove member from session:", error);
+  }
+}
