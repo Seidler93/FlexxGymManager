@@ -10,7 +10,6 @@ export default function CalendarPage() {
   const [expandedInstance, setExpandedInstance] = useState(null);
   const [currentWeekStart, setCurrentWeekStart] = useState(getStartOfWeek(new Date()));
   const [showSearchModal, setShowSearchModal] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null)
   const [recurring, setRecurring] = useState(false)
   const [selectedInstance, setSelectedInstance] = useState(false)
   const navigate = useNavigate();
@@ -70,7 +69,6 @@ export default function CalendarPage() {
     }
   });
   
-
   const toggleExpand = (id) => {
     setExpandedInstance(prev => (prev === id ? null : id));
   };
@@ -213,8 +211,8 @@ export default function CalendarPage() {
                   const maxCapacity = instance.maxCapacity || 6;
 
                   return (
-                    <li key={instance.id} style={{ marginBottom: '1rem', border: '1px solid #ccc', borderRadius: 8, padding: '0.75rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <li className='schedule-card' key={instance.id} style={{ marginBottom: '1rem', border: '1px solid #ccc', borderRadius: 8, padding: '0.75rem' }}>
+                      <div onClick={() => toggleExpand(instance.id)} style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <div>
                           <strong>{instance.time}</strong> — {instance.name} <br />
                           <span style={{ fontSize: '0.9rem', color: '#666' }}>
@@ -242,7 +240,7 @@ export default function CalendarPage() {
                       </div>
 
                       {isExpanded && (
-                        <div style={{ marginTop: '0.5rem', paddingLeft: '1rem' }}>
+                        <div className='schedule-card' style={{ marginTop: '0.5rem', paddingLeft: '1rem' }}>
                           <p><strong>Attendees:</strong></p>
                           {attendees.length > 0 ? (
                             <ul >
