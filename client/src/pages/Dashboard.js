@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import './Dashboard.css';
+import { useMember } from '../context/MemberContext';
 
 export default function Dashboard() {
+  const { memberProfiles, setMemberProfiles } = useMember();
   const [stats, setStats] = useState({
     active: 0,
     greenHold: 0,
@@ -12,18 +14,24 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchStats = async () => {
-      const snapshot = await getDocs(collection(db, 'members'));
-      const members = snapshot.docs.map(doc => doc.data());
+      try {
+        const snapshot = await getDocs(collection(db, 'memberProfiles'));
+        const members = snapshot.docs.map(doc => doc.data());
 
-      const active = members.filter(m => m.membershipStatus === 'Active').length;
-      const greenHold = members.filter(m => m.membershipStatus === 'Green Hold').length;
-      const yellowHold = members.filter(m => m.membershipStatus === 'Yellow Hold').length;
+        const active = members.filter(m => m.membershipStatus === 'Active').length;
+        const greenHold = members.filter(m => m.membershipStatus === 'Green Hold').length;
+        const yellowHold = members.filter(m => m.membershipStatus === 'Yellow Hold').length;
 
-      setStats({ active, greenHold, yellowHold });
+        setStats({ active, greenHold, yellowHold });
+        setMemberProfiles(members);
+      } catch (err) {
+        console.error('Error fetching member stats:', err);
+      }
     };
 
     fetchStats();
   }, []);
+
 
   return (
     <main>

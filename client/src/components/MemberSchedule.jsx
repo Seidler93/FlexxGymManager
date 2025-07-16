@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import '../pages/MemberAccountPage.css';
 import { useMember } from '../context/MemberContext';
 import { removeMemberFromSession } from '../utils/firestoreHelpers';
+import { startOfWeek, endOfWeek, subWeeks, isWithinInterval } from 'date-fns';
 
 export default function MemberSchedule({ initialSessions }) {
   const [sessions, setSessions] = useState(initialSessions || []);
   const [upcomingGrouped, setUpcomingGrouped] = useState({});
   const [pastGrouped, setPastGrouped] = useState({});
   const { member } = useMember();
+  const [ledger, setLedger] = useState([]);
+  const [ledgerWeeks, setLedgerWeeks] = useState(12);
 
   // Helper: Ensure valid JS Date from Firestore Timestamp or raw date
   const getJSDate = (d) => (d?.toDate ? d.toDate() : new Date(d));
@@ -60,9 +63,52 @@ export default function MemberSchedule({ initialSessions }) {
     }
   }, [member]);
 
+  useEffect(() => {
+    console.log(ledgerWeeks);
+    
+  }, [ledgerWeeks]);
+
   // Separate past and upcoming sessions and group them
   useEffect(() => {
+    if (!member?.daysPerWeek) return;
+
     const now = new Date();
+    const allWeeks = [];
+
+    for (let i = 0; i < ledgerWeeks; i++) {
+      const weekStart = startOfWeek(subWeeks(now, i), { weekStartsOn: 1 }); // Monday
+      const weekEnd = endOfWeek(weekStart, { weekStartsOn: 1 });
+
+      allWeeks.unshift({ weekStart, weekEnd });
+    }
+
+    const ledgerData = [];
+    let runningBalance = 0;
+
+    allWeeks.forEach(({ weekStart, weekEnd }) => {
+      const sessionsThisWeek = sessions.filter(s => {
+        const date = getJSDate(s.date);
+        return isWithinInterval(date, { start: weekStart, end: weekEnd });
+      });
+
+      const expected = parseInt(member.daysPerWeek);
+      const actual = sessionsThisWeek.length;
+      const credit = actual - expected;
+
+      runningBalance += credit;
+
+      ledgerData.push({
+        weekStart,
+        weekEnd,
+        expected,
+        actual,
+        credit,
+        runningBalance
+      });
+    });
+
+    setLedger(ledgerData);
+
     const upcoming = [];
     const past = [];
 
@@ -80,7 +126,7 @@ export default function MemberSchedule({ initialSessions }) {
 
     setUpcomingGrouped(groupSessionsByWeek(sortedUpcoming));
     setPastGrouped(groupSessionsByWeek(sortedPast));
-  }, [sessions]);
+  }, [sessions, member, ledgerWeeks]);
 
   // Remove a session locally by instanceId
   const handleRemove = (targetSession) => {
@@ -141,6 +187,47 @@ export default function MemberSchedule({ initialSessions }) {
   return (
     <div className="member-schedule-container">
       <div className="schedule-section">
+        <h3>Session Ledger (Last 12 Weeks)</h3>
+        <div className="ledger-controls">
+          <label htmlFor="weeksInput">Weeks to show: </label>
+          <input
+            id="weeksInput"
+            type="number"
+            min={1}
+            max={52}
+            value={ledgerWeeks}
+            onChange={(e) => setLedgerWeeks(parseInt(e.target.value) || 1)}
+            style={{ width: '60px', marginRight: '8px' }}
+          />
+        </div>
+
+        <table className="ledger-table">
+          <thead>
+            <tr>
+              <th>Week</th>
+              <th>Expected</th>
+              <th>Attended</th>
+              <th>Credit</th>
+              <th>Running Balance</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ledger.map((entry, i) => (
+              <tr key={i}>
+                <td>
+                  {entry.weekStart.toLocaleDateString()} – {entry.weekEnd.toLocaleDateString()}
+                </td>
+                <td>{entry.expected}</td>
+                <td>{entry.actual}</td>
+                <td>{entry.credit > 0 ? `+${entry.credit}` : entry.credit}</td>
+                <td>{entry.runningBalance}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="schedule-section">
         <h3>Upcoming Sessions</h3>
         {Object.keys(upcomingGrouped).length === 0 ? (
           <p>No upcoming sessions.</p>
@@ -160,3 +247,7 @@ export default function MemberSchedule({ initialSessions }) {
     </div>
   );
 }
+
+
+
+

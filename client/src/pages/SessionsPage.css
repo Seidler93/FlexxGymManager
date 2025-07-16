@@ -55,3 +55,47 @@
   margin: 0.25rem 0;
   font-size: 0.9rem;
 }
+
+.am-pm-divider {
+  border-top: 2px solid black;
+  margin: 0.5rem 0;
+}
+
+.fill-bar-wrapper {
+  width: 100%;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.fill-bar {
+  height: 100%;
+  background-color: #4caf50;
+  /* Green bar color */
+  transition: width 0.3s ease-in-out;
+}
+
+.session-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.member-list ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.member-list li:hover {
+  background-color: white;
+}
+
+.member-list li {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}

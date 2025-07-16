@@ -147,6 +147,38 @@ export default function DevDropdown() {
       console.error("❌ Failed to clear attendees:", error);
     }
   };
+
+  const generateMemberProfiles = async () => {
+    const snapshot = await getDocs(collection(db, 'members'));
+    const batch = writeBatch(db);
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const memberId = docSnap.id;
+
+      const profileData = {
+        firstName: data.firstName || '',
+        lastName: data.lastName || '',
+        membershipStatus: data.membershipStatus || null,
+        temperature: data.temperature || null,
+        startDate: data.startDate || null,
+        daysPerWeek: data.daysPerWeek || null,
+        paymentMethod: data.paymentOption || null,
+        price: data.pricePoint || null,
+        referral: data.referral || null,
+        recurring: data.recurring || false,
+        reactivation: data.reactivation || null,
+        createdAt: Timestamp.now()
+      };
+
+      const profileRef = doc(db, 'memberProfiles', memberId);
+      batch.set(profileRef, profileData);
+    });
+
+    await batch.commit();
+    alert('✅ Member profiles generated!');
+  };
+
   
 
   return (
@@ -164,6 +196,7 @@ export default function DevDropdown() {
           <button onClick={setHolds}>Update Member Holds</button>
           <button onClick={convertSessionDatesToTimestamps}>Fix Instance Date Format</button>
           <button onClick={clearAllAttendees}>Remove All Attendees</button>
+          <button onClick={generateMemberProfiles}>Generate Member Profiles</button>
         </div>
       )}
     </div>

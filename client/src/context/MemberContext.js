@@ -8,9 +8,10 @@ export const MemberContext = createContext();
 export function MemberProvider({ children }) {
   const [member, setMember] = useState(null);
   const [searchedMember, setSearchedMember] = useState(null);
+  const [memberProfiles, setMemberProfiles] = useState([]);
 
   return (
-    <MemberContext.Provider value={{ member, setMember, searchedMember, setSearchedMember }}>
+    <MemberContext.Provider value={{ member, setMember, searchedMember, setSearchedMember, memberProfiles, setMemberProfiles }}>
       {children}
     </MemberContext.Provider>
   );
