@@ -1,0 +1,57 @@
+.sessions-page {
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.week-grid {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.day-column {
+  min-width: 150px;
+  flex: 1;
+}
+
+.session-card {
+  background: #f7f7f7;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.session-card:hover {
+  background: #eaeaea;
+}
+
+.session-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.count {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #444;
+}
+
+.member-list {
+  margin-top: 0.5rem;
+  border-top: 1px solid #ccc;
+  padding-top: 0.5rem;
+}
+
+.member-name {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}

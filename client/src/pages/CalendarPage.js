@@ -112,44 +112,41 @@ export default function CalendarPage() {
   
   const handleAddRecurring = async (instance, member) => {
     if (!member || !instance) return;
-    
+
     const sessionId = instance.sessionId;
     const today = Timestamp.now();
-    
-    // 1. Get all future sessionInstances with the same sessionId
+
     const q = query(
       collection(db, 'sessionInstances'),
       where('sessionId', '==', sessionId),
       where('date', '>=', today)
     );
-    
+
     const snapshot = await getDocs(q);
     const batch = writeBatch(db);
-    
+
     const memberToAdd = {
       name: `${member.lastName}, ${member.firstName}`,
       memberId: member.id,
     };
-    
+
     const sessionsAdded = [];
-    
-    // 2. Add member to each matching sessionInstance
+
     snapshot.forEach((docSnap) => {
-      const instance = docSnap.data();
+      const inst = docSnap.data();
       const instanceRef = doc(db, 'sessionInstances', docSnap.id);
 
-      // Session data to add to the user's array
       const sessionForMember = {
         instanceId: docSnap.id,
-        date: instance.date,
-        startTime: instance.time
+        date: inst.date,
+        startTime: inst.time
       };
 
-      const currentAttendees = instance.attendees || [];
+      const currentAttendees = inst.attendees || [];
       const alreadyAdded = currentAttendees.some(
         (a) => a.memberId === member.id
       );
-      
+
       if (!alreadyAdded) {
         const updatedAttendees = [...currentAttendees, memberToAdd];
         batch.update(instanceRef, { attendees: updatedAttendees });
@@ -157,19 +154,24 @@ export default function CalendarPage() {
       }
     });
 
-    // 3. Update member doc with sessions and recurringSessions
+    // Update member document with session info and recurring flag
     if (sessionsAdded.length > 0) {
       const memberRef = doc(db, 'members', member.id);
-
       batch.update(memberRef, {
         sessions: arrayUnion(...sessionsAdded),
         recurringSessions: arrayUnion(sessionId),
       });
+
+      // 🔥 NEW: Add member to the parent session's recurringAttendees
+      const parentSessionRef = doc(db, 'sessions', sessionId);
+      batch.update(parentSessionRef, {
+        recurringAttendees: arrayUnion(memberToAdd)
+      });
     }
 
-    // 4. Commit the batch
     await batch.commit();
   };
+
 
   const handleDeleteInstance = async (id) => {
     const confirm = window.confirm('Delete this session instance?');
