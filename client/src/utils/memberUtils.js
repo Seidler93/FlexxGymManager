@@ -3,6 +3,7 @@ export function getStatusClass(status) {
     case 'active': return 'status-blue';
     case 'hold': return 'status-green';
     case 'extended hold': return 'status-yellow';
+    case 'cancel': return 'status-red';
     default: return '';
   }
 }

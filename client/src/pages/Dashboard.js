@@ -16,7 +16,10 @@ export default function Dashboard() {
     const fetchStats = async () => {
       try {
         const snapshot = await getDocs(collection(db, 'memberProfiles'));
-        const members = snapshot.docs.map(doc => doc.data());
+        const members = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
         const active = members.filter(m => m.membershipStatus === 'Active').length;
         const greenHold = members.filter(m => m.membershipStatus === 'Green Hold').length;
@@ -24,6 +27,7 @@ export default function Dashboard() {
 
         setStats({ active, greenHold, yellowHold });
         setMemberProfiles(members);
+        
       } catch (err) {
         console.error('Error fetching member stats:', err);
       }
@@ -31,6 +35,11 @@ export default function Dashboard() {
 
     fetchStats();
   }, []);
+
+  useEffect(() => {
+    console.log(memberProfiles);
+    
+  }, [memberProfiles])
 
 
   return (

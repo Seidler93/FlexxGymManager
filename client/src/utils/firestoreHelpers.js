@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, arrayUnion, runTransaction } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, arrayUnion, runTransaction, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { useMember } from '../context/MemberContext';
 
 // Fetch a document by ID
@@ -159,3 +159,38 @@ export async function removeMemberFromSession( memberId, instanceId ) {
     console.error("❌ Failed to remove member from session:", error);
   }
 }
+
+export async function cancelMember(member, { nextContactDate, returnDate, notes }) {
+  const memberRef = doc(db, 'members', member.id);
+  const profileRef = doc(db, 'memberProfiles', member.id);
+
+  const memberSnap = await getDoc(memberRef);
+  if (!memberSnap.exists()) {
+    throw new Error('Member not found');
+  }
+  const memberData = memberSnap.data();
+
+  const startTimestamp = Timestamp.now();
+
+  const cancellationEntry = {
+    startDate: startTimestamp,
+    endDate: returnDate || null,
+    nextContactDate,
+    status: 'Cancel',
+    notes,
+    previousMembership: memberData.membershipStatus || '',
+    newMembership: 'Cancel'
+  };
+
+  // 1. Update membership history
+  await updateDoc(memberRef, {
+    membershipHistory: arrayUnion(cancellationEntry),
+    membershipStatus: 'Cancel'
+  });
+
+  // 2. Update profile status
+  await updateDoc(profileRef, {
+    membershipStatus: 'Cancel'
+  });
+}
+

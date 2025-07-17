@@ -18,13 +18,11 @@ export default function BillingSummary() {
   const usagePercent = (memberPlan.used / memberPlan.totalSessions) * 100;
 
   return (
-    <>
-      <div className='billing-container'>
-        <div className="billing-overview-card">
+    <div className="billing-container">
+      <div className="billing-card unified horizontal">
+        <div className="card-section left">
           <div className="billing-overview-header">
-            <div>
-              <h3>Membership details</h3>
-            </div>
+            <h3>Membership Details</h3>
             <button className="change-plan-btn">Edit</button>
           </div>
 
@@ -38,33 +36,17 @@ export default function BillingSummary() {
               <div className="value">${memberPlan.cost}/month</div>
             </div>
           </div>
-
-          <div className="usage-section">
-            <div className="usage-header">
-              <div className="label">Plan usage</div>
-              {/* <div className="meta">{memberPlan.lastUpdated}</div> */}
-            </div>
-
-            <div className="usage-labels">
-              <span className="dot blue"></span> {memberPlan.used} Sessions Used
-            </div>
-
-            <div className="usage-bar">
-              <div className="used" style={{ width: `${usagePercent}%` }} />
-            </div>
-            <div className="usage-meta">{memberPlan.used} / {memberPlan.totalSessions}</div>
-          </div>
-
         </div>
-        <div className="billing-card">
+
+        <div className="card-section right">
           <h4>Payment Method</h4>
           <div className="payment-method">
             <img src="/Visa_Brandmark_Blue_RGB_2021.png" alt="Visa" style={{ width: 40 }} />
             <p>**** 4242<br /> Exp 02/26</p>
           </div>
-          <button>Change</button>
-        </div>  
+          <button className="change-plan-btn">Change</button>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import PauseMembershipModal from './PauseMembershipModal';
 import { pauseMembership } from '../utils/firestoreHelpers';
 import { toast } from 'react-toastify';
+import { cancelMember } from '../utils/firestoreHelpers';
 
 export default function MembershipInfoSection({ member }) {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -27,6 +28,22 @@ export default function MembershipInfoSection({ member }) {
     // Add handling logic here based on the selected action
   };
 
+  const handleCancel = async () => {
+    console.log(member);
+    
+    try {
+      await cancelMember(member, {
+        nextContactDate: '2025-08-15',
+        returnDate: null,
+        notes: 'Cancelling due to moving out of town.'
+      });
+      console.log('Member successfully cancelled.');
+    } catch (error) {
+      console.error('Error cancelling member:', error);
+    }
+  };
+
+
   return (
     <div className="info-section">
       <div className="section-header">
@@ -36,10 +53,8 @@ export default function MembershipInfoSection({ member }) {
           {showDropdown && (
             <ul className="dropdown-menu">
               <li onClick={() => handleAction('pause')}>Pause Membership</li>
-              <li onClick={() => handleAction('cancel')}>Cancel</li>
-              <li onClick={() => handleAction('change')}>Change Membership Plan</li>
-              <li onClick={() => handleAction('edit')}>Edit Membership</li>
-              <li onClick={() => handleAction('pricing')}>Future Pricing</li>
+              <li onClick={handleCancel}>Cancel Membership</li>
+              {/* <li onClick={handleCancel}>Change Membership</li> */}
             </ul>
           )}
         </div>

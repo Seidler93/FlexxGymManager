@@ -28,6 +28,13 @@ export default function MembersPage() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log(memberProfiles);
+    if (memberProfiles.length > 0) {
+      setLoading(false);
+    }
+  }, [memberProfiles])
+
 
   return (
     <div className="members-page">
@@ -78,7 +85,6 @@ export default function MembersPage() {
               ))
             )}
           </tbody>
-
         </table>
       </div>
     </div>
